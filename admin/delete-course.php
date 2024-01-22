@@ -13,7 +13,7 @@ if(isset($_GET['id'])){
     $id = $_GET['id'];
 
     $oldImgName = $_GET['oldImgName'];
-    unlink("../uploads/courses/$oldImgName");
+    unlink("$url/uploads/courses/$oldImgName");
 
     $sql = "DELETE FROM courses WHERE id = $id";
 

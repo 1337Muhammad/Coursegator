@@ -7,7 +7,7 @@ dd($_GET);
         //sanitize and check if valid -then- check if that categoriy exist in db
         $id = $_GET['id'];
     }else{
-        //in case no id is given
+        //in case no id is given default is 1
         $id = 1;
     }
 
@@ -64,7 +64,7 @@ dd($_GET);
                                 <div class="single_courses">
                                     <div class="thumb">
                                         <a href="#">
-                                            <img src="uploads/courses/<?= $course['img'] ?>" alt="">
+                                            <img src="<?= $url ?>uploads/courses/<?= $course['img'] ?>" alt="">
                                         </a>
                                     </div>
                                     <div class="courses_info">

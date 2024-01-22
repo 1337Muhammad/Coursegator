@@ -23,17 +23,17 @@ $conn = dbconnect();
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/nice-select.css">
-    <link rel="stylesheet" href="assets/css/flaticon.css">
-    <link rel="stylesheet" href="assets/css/gijgo.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="assets/css/slicknav.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/themify-icons.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/nice-select.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/flaticon.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/gijgo.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/animate.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/slicknav.css">
+    <link rel="stylesheet" href="<?= $url ?>assets/css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 
@@ -51,7 +51,7 @@ $conn = dbconnect();
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo-img">
                                 <a href="index.html">
-                                    <img src="assets/img/logo.png" alt="">
+                                    <img src="<?= $url ?>assets/img/logo.png" alt="">
                                 </a>
                             </div>
                         </div>

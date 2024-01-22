@@ -20,18 +20,18 @@ if(isset($_POST['submit'])){
     //validation 
     $errors = [];
 
-    //name: required | string non numeric | max:255
+    //name: required | string non numeric | max:255 | min: 3
     if(empty($name)){
         $errors[] = "Name is required!";
     }elseif(! is_string($name) or is_numeric($name) or strlen($name) > 255 or strlen($name) < 3){
         $errors[] = "Invalid name!";
     }
 
-    //email: required | email | max:255
+    //email: required | email | max:100
         if(empty($email)){
         $errors[] = "Email is required!";
-    }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL) or strlen($email) > 255){
-        $errors[] = "Invalid email!";
+    }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL) or strlen($email) > 100){
+        $errors[] = "Invalid email format!";
     }
 
     //phone: required | string | max:255
@@ -78,9 +78,7 @@ if(isset($_POST['submit'])){
         //redirect with error msg
     }
 
-    header('location: /enroll.php');
+    header("location: $url" . "enroll.php");
     die;
 
 }
-
-// header('location: /');

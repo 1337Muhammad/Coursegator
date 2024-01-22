@@ -29,7 +29,7 @@
                     <?php endforeach;
                     unset($_SESSION['errors']); ?>
                 <?php endif ?>
-                <form action="handlers/handle-login.php" method="post">
+                <form action="<?= $url ?>admin/handlers/handle-login.php" method="post">
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">
@@ -67,11 +67,11 @@
     </div>
 
 
-    <script src="assets/js/jquery.js"></script>
+    <script src="<?= $url ?>/admin/assets/js/jquery.js"></script>
 
-    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script src="<?= $url ?>/admin/assets/js/bootstrap.bundle.js"></script>
 
-    <script src="assets/js/adminlte.js"></script>
+    <script src="<?= $url ?>/admin/assets/js/adminlte.js"></script>
 </body>
 
 </html>

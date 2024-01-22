@@ -46,7 +46,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
                 <div class="col-12">
-                    <?php include('inc/success.php') ?>
+                    <?php include($url . 'admin/inc/success.php') ?>
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Showing categories</h3>

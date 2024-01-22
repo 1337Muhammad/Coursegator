@@ -29,7 +29,7 @@
                 <?php endif ?>
             </div>
             <div class="col-lg-8">
-                <form class="form-contact contact_form" action="handlers/handle-enroll.php" method="post" <?php // id="contactForm" ?> novalidate="novalidate">
+                <form class="form-contact contact_form" action="<?= $url ?>handlers/handle-enroll.php" method="post" <?php // id="contactForm" ?> novalidate="novalidate">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">

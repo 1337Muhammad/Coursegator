@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
         $imgNewName = "$randStr.$imgExtension";
         // dd($imgNewName);
 
-        $uploaded = move_uploaded_file($imgTmpName, "../../uploads/courses/$imgNewName");
+        $uploaded = move_uploaded_file($imgTmpName, "$url/uploads/courses/$imgNewName");
 
         if ($uploaded) {
             //insert into db
@@ -78,18 +78,18 @@ if (isset($_POST['submit'])) {
                 $_SESSION['success'] = "Course added succesfully";
             } else {
                 $_SESSION['error'] = "Failed to add new course!";
-                header('location: ../all-courses.php');
+                header("location: $url" . "admin/all-courses.php");
                 die;
                 mysqli_close($conn);
             }
         }
 
 
-        header('location: ../all-courses.php');
+        header("location: $url" . "admin/all-courses.php");
         die;
     } else {
         //store $errors in session
         $_SESSION['errors'] = $errors;
-        header('location: ../add-course.php');
+        header("location: $url" . "admin/add-course.php");
     }
 }

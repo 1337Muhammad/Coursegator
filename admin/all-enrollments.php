@@ -47,7 +47,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
                 <div class="col-12">
-                    <?php include('inc/success.php') ?>
+                    <?php include($url . 'admin/inc/success.php') ?>
                     <?php 
                         if(isset($_SESSION['error'])){
                             echo $_SESSION['error'];

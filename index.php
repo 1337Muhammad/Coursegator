@@ -8,7 +8,7 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-xl-6 col-md-6">
                     <div class="illastrator_png">
-                        <img src="assets/img/banner/edu_ilastration.png" alt="">
+                        <img src="<?= $url ?>assets/img/banner/edu_ilastration.png" alt="">
                     </div>
                 </div>
                 <div class="col-xl-6 col-md-6">
@@ -24,6 +24,19 @@
     </div>
 </div>
 <!-- slider_area_end -->
+<?php
+//count of categories, courses & reservations in one query to db
+$sql = "SELECT 
+    (SELECT COUNT(id) FROM courses) AS courses_count,
+    (SELECT COUNT(id) FROM categories) AS categories_count,
+    (SELECT COUNT(id) FROM reservations) AS reservations_count";
+$result = mysqli_query($conn, $sql);
+$counts = mysqli_fetch_assoc($result);
+
+$coursesCount = $counts['courses_count'];
+$categoriesCount = $counts['categories_count'];
+$reservesCount = $counts['reservations_count'];
+?>
 
 <!-- about_area_start -->
 <div class="about_area">
@@ -31,28 +44,14 @@
         <div class="row">
             <div class="col-xl-5 col-lg-6">
                 <div class="single_about_info">
-                    <h3>Over 7000 Tutorials <br>
-                        from 20 Courses</h3>
+                    <h3>Over <?= $coursesCount ?> Courses <br>
+                        from <?= $categoriesCount ?> different Fields</h3>
                     <p>Our set he for firmament morning sixth subdue darkness creeping gathered divide our let good
                         moving. Moving in fourth air night bring upon you’re it beast let you dominion likeness open
                         place day great wherein heaven sixth lesser subdue fuel levenshtein pora </p>
                     <a href="#" class="boxed_btn">Enroll a Course</a>
                 </div>
             </div>
-
-            <?php
-            //count of categories, courses & reservations in one query to db
-            $sql = "SELECT 
-                (SELECT COUNT(id) FROM courses) AS courses_count,
-                (SELECT COUNT(id) FROM categories) AS categories_count,
-                (SELECT COUNT(id) FROM reservations) AS reservations_count";
-            $result = mysqli_query($conn, $sql);
-            $counts = mysqli_fetch_assoc($result);
-
-            $coursesCount = $counts['courses_count'];
-            $categoriesCount = $counts['categories_count'];
-            $reservesCount = $counts['reservations_count'];
-            ?>
 
             <div class="col-xl-6 offset-xl-1 col-lg-6">
                 <div class="about_tutorials">
@@ -128,7 +127,7 @@
                                 <div class="single_courses">
                                     <div class="thumb">
                                         <a href="#">
-                                            <img src="uploads/courses/<?= $course['img'] ?>" alt="">
+                                            <img src="<?= $url ?>uploads/courses/<?= $course['img'] ?>" alt="">
                                         </a>
                                     </div>
                                     <div class="courses_info">

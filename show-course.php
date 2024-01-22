@@ -2,26 +2,25 @@
 <?php include("$root/inc/header.php") ?>
 
 <?php
-if (isset($_GET['id'])) {
-    //sanitize and check if valid -then- check if that categoriy exist in db
-    $id = $_GET['id'];
-} else {
-    $id = 1;
-}
+    if (isset($_GET['id'])) {
+        //sanitize and check if valid -then- check if that categoriy exist in db
+        $id = $_GET['id'];
+    } else {
+        $id = 1;
+    }
 
-$sql = "SELECT `name`, `desc`, `img` FROM courses WHERE id = $id";
-$result = mysqli_query($conn, $sql);
+    $sql = "SELECT `name`, `desc`, `img` FROM courses WHERE id = $id";
+    $result = mysqli_query($conn, $sql);
 
-$found = false;
+    $found = false;
 
-if (mysqli_num_rows($result) > 0) {
-    $course = mysqli_fetch_assoc($result);
-    $found = true;
-    // dd($courseName);
-} else {
-    $course['name'] = "No Courses Found";
-}
-
+    if (mysqli_num_rows($result) > 0) {
+        $course = mysqli_fetch_assoc($result);
+        $found = true;
+        // dd($courseName);
+    } else {
+        $course['name'] = "No Courses Found";
+    }
 ?>
 
 <!-- bradcam_area_start -->
@@ -61,7 +60,7 @@ if (mysqli_num_rows($result) > 0) {
                 <div class="col-xl-5 col-lg-5">
                     <div class="courses_sidebar">
                         <div class="video_thumb">
-                            <img src="uploads/courses/<?= $course['img'] ?>" alt="">
+                            <img src="<?= $url ?>uploads/courses/<?= $course['img'] ?>" alt="">
                         </div>
                     </div>
                 </div>

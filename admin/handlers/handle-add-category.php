@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
     }else{
         //store $errors in session
         $_SESSION['errors'] = $errors;
-        header('location: ../add-category.php');
+        header("location: $url" . "admin/add-category.php");
     }
 
 }

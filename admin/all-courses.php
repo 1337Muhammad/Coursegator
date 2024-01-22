@@ -48,7 +48,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
                 <div class="col-12">
-                    <?php include('inc/success.php') ?>
+                    <?php include($url . 'admin/inc/success.php') ?>
                     <?php 
                         if(isset($_SESSION['error'])){
                             echo $_SESSION['error'];
@@ -88,7 +88,7 @@ if (mysqli_num_rows($result) > 0) {
                                     <tr>
                                         <td><?= $key + 1 ?></td>
                                         <td><?= $course['name'] ?></td>
-                                        <td><img height="50px" src="../../uploads/courses/<?= $course['img'] ?>"></td>
+                                        <td><img height="50px" src="<?= $url ?>/uploads/courses/<?= $course['img'] ?>"></td>
                                         <td><?= $course['catName'] ?></td>
                                         <td><?= strlen($course['desc'] > 35)? substr($course['desc'], 0, 35) . ' ...': $course['desc'] ?></td>
                                         <td><?= $course['created_at'] ?></td>

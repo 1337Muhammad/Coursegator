@@ -50,9 +50,9 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="card-header">
                             <h3 class="card-title">Edit Profile</h3>
                         </div>
-                        <?php include 'inc/success.php' ?>
-                        <?php include('inc/errors.php') ?>
-                        <form role="form" method="POST" action="handlers/handle-edit-profile.php?id=<?= $id ?>">
+                        <?php include($url . 'admin/inc/success.php') ?>
+                        <?php include($url . 'admin/inc/errors.php') ?>
+                        <form role="form" method="POST" action="<?= $url ?>admin/handlers/handle-edit-profile.php?id=<?= $id ?>">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="profileName">Name</label>

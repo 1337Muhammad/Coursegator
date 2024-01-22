@@ -46,8 +46,8 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="card-header">
                             <h3 class="card-title">Add Course</h3>
                         </div>
-                        <?php include('inc/errors.php') ?>
-                        <form role="form" method="POST" action="handlers/handle-add-course.php" enctype="multipart/form-data">
+                        <?php include($url . 'admin/inc/errors.php') ?>
+                        <form role="form" method="POST" action="<?= $url ?>admin/handlers/handle-add-course.php" enctype="multipart/form-data">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="courseName">Course Name</label>

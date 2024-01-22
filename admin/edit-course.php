@@ -54,13 +54,13 @@ mysqli_close($conn);
                         <div class="card-header">
                             <h3 class="card-title">Edit Course</h3>
                         </div>
-                        <?php include('inc/errors.php') ?>
+                        <?php include($url . 'admin/inc/errors.php') ?>
                         <?php 
                             if(isset($_SESSION['error'])){
                                 echo $_SESSION['error'];
                             }
                          ?>
-                        <form role="form" method="POST" action="handlers/handle-edit-course.php?id=<?=$course['id']?>&oldImgName=<?=$course['img']?>" enctype="multipart/form-data">
+                        <form role="form" method="POST" action="<?= $url ?>admin/handlers/handle-edit-course.php?id=<?=$course['id']?>&oldImgName=<?=$course['img']?>" enctype="multipart/form-data">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="courseName">Course Name</label>
@@ -82,7 +82,7 @@ mysqli_close($conn);
                                     </div>
                                 </div>
 
-                                <img src="../uploads/courses/<?= $course['img'] ?>" alt="" height="50px">
+                                <img src="<?= $url ?>/uploads/courses/<?= $course['img'] ?>" alt="" height="50px">
                                 <div class="form-group">
                                     <label for="spec">Categories:</label>
                                     <select class="form-control valid" name="category_id" id="category_id">

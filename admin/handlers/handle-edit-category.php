@@ -35,12 +35,12 @@ if (isset($_POST['submit'])) {
 
         mysqli_close($conn);
 
-        header('location: ../all-categories.php');
+        header("location: $url" . "admin/all-categories.php");
         die;
     }else{
         //store $errors in session
         $_SESSION['errors'] = $errors;
-        header("location:../edit-category.php?id=$id");
+        header("location: $url" . "admin/edit-category.php?id=$id");
     }
 
 }

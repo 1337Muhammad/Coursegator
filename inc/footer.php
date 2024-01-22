@@ -7,7 +7,7 @@
                         <div class="footer_widget">
                             <div class="footer_logo">
                                 <a href="#">
-                                    <img src="assets/img/logo.png" alt="">
+                                    <img src="<?= $url ?>assets/img/logo.png" alt="">
                                 </a>
                             </div>
                             <p>
@@ -110,7 +110,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             <div class="popup_inner">
                 <div class="logo text-center">
                     <a href="#">
-                        <img src="assets/img/form-logo.png" alt="">
+                        <img src="<?= $url ?>assets/img/form-logo.png" alt="">
                     </a>
                 </div>
                 <h3>Sign in</h3>
@@ -140,7 +140,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             <div class="popup_inner">
                 <div class="logo text-center">
                     <a href="#">
-                        <img src="assets/img/form-logo.png" alt="">
+                        <img src="<?= $url ?>assets/img/form-logo.png" alt="">
                     </a>
                 </div>
                 <h3>Resistration</h3>
@@ -167,33 +167,33 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 
     <!-- JS here -->
-    <script src="assets/js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/isotope.pkgd.min.js"></script>
-    <script src="assets/js/ajax-form.js"></script>
-    <script src="assets/js/waypoints.min.js"></script>
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/js/scrollIt.js"></script>
-    <script src="assets/js/jquery.scrollUp.min.js"></script>
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/nice-select.min.js"></script>
-    <script src="assets/js/jquery.slicknav.min.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/gijgo.min.js"></script>
+    <script src="<?= $url ?>assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="<?= $url ?>assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="<?= $url ?>assets/js/popper.min.js"></script>
+    <script src="<?= $url ?>assets/js/bootstrap.min.js"></script>
+    <script src="<?= $url ?>assets/js/owl.carousel.min.js"></script>
+    <script src="<?= $url ?>assets/js/isotope.pkgd.min.js"></script>
+    <script src="<?= $url ?>assets/js/ajax-form.js"></script>
+    <script src="<?= $url ?>assets/js/waypoints.min.js"></script>
+    <script src="<?= $url ?>assets/js/jquery.counterup.min.js"></script>
+    <script src="<?= $url ?>assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="<?= $url ?>assets/js/scrollIt.js"></script>
+    <script src="<?= $url ?>assets/js/jquery.scrollUp.min.js"></script>
+    <script src="<?= $url ?>assets/js/wow.min.js"></script>
+    <script src="<?= $url ?>assets/js/nice-select.min.js"></script>
+    <script src="<?= $url ?>assets/js/jquery.slicknav.min.js"></script>
+    <script src="<?= $url ?>assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="<?= $url ?>assets/js/plugins.js"></script>
+    <script src="<?= $url ?>assets/js/gijgo.min.js"></script>
 
     <!--contact js-->
-    <script src="assets/js/contact.js"></script>
-    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
-    <script src="assets/js/jquery.form.js"></script>
-    <script src="assets/js/jquery.validate.min.js"></script>
-    <script src="assets/js/mail-script.js"></script>
+    <script src="<?= $url ?>assets/js/contact.js"></script>
+    <script src="<?= $url ?>assets/js/jquery.ajaxchimp.min.js"></script>
+    <script src="<?= $url ?>assets/js/jquery.form.js"></script>
+    <script src="<?= $url ?>assets/js/jquery.validate.min.js"></script>
+    <script src="<?= $url ?>assets/js/mail-script.js"></script>
 
-    <script src="assets/js/main.js"></script>
+    <script src="<?= $url ?>assets/js/main.js"></script>
 </body>
 
 </html>

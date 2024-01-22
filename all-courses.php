@@ -44,7 +44,7 @@
                                  <div class="single_courses">
                                      <div class="thumb">
                                          <a href="#">
-                                             <img src="uploads/courses/<?= $course['img'] ?>" alt="">
+                                             <img src="<?= $url ?>uploads/courses/<?= $course['img'] ?>" alt="">
                                          </a>
                                      </div>
                                      <div class="courses_info">

@@ -90,17 +90,17 @@ if (isset($_POST['submit'])) {
         } else {
             $_SESSION['error'] = "Failed to edit new course!";
             mysqli_close($conn);
-            header('location: ../all-courses.php');
+            header("location: $url" . "admin/all-courses.php");
             die;
         }
 
 
-        header('location: ../all-courses.php');
+        header("location: $url" . "admin/all-courses.php");
         die;
     } else {
         //if $errors store it in session
         $_SESSION['errors'] = $errors;
-        header("location: ../edit-course.php?courseId=$id");
+        header("location: $url" . "admin/edit-course.php?courseId=$id");
         die;
     }
 }

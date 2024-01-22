@@ -78,6 +78,6 @@ if (isset($_POST['submit'])) {
     }
             // dd($_SESSION);
 
-    header('location: ../edit-profile.php');
+    header("location: $url" . "admin/edit-profile.php");
     die;
 }

@@ -55,6 +55,6 @@ if (isset($_POST['submit'])) {
     }
 
     //goto login if $errors found
-    header('location: ../login.php');
+    header("location: $url" . "admin/login.php");
     die;
 }
