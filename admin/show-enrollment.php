@@ -1,4 +1,5 @@
-<?php include('inc/header.php'); ?>
+<?php include("../global.php"); ?>
+<?php include("$root/admin/inc/header.php"); ?>
 
 <?php
 $conn = dbconnect();
@@ -98,4 +99,4 @@ if (isset($_GET['id'])) {
 <!-- /.control-sidebar -->
 
 
-<?php include('inc/footer.php'); ?>
+<?php include("$root/admin/inc/footer.php"); ?>

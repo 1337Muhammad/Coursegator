@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-include("../inc/functions.php");
+include("../../global.php");
+include("$root/admin/inc/functions.php");
 
 $conn = dbconnect();
 

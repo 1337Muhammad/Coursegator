@@ -1,4 +1,5 @@
-<?php include('inc/header.php') ?>
+<?php include("global.php") ?>
+<?php include("$root/inc/header.php") ?>
 
 <!-- slider_area_start -->
 <div class="slider_area ">
@@ -151,4 +152,4 @@
 <!-- popular_courses_end-->
 
 
-<?php include('inc/footer.php') ?>
+<?php include("$root/inc/footer.php") ?>

@@ -1,4 +1,5 @@
-<?php include('inc/header.php') ?>
+<?php include("global.php") ?>
+<?php include("$root/inc/header.php") ?>
 
 <!-- bradcam_area_start -->
 <div class="bradcam_area breadcam_bg overlay2">
@@ -108,4 +109,4 @@
 </section>
 <!-- ================ contact section end ================= -->
 
-<?php include('inc/footer.php'); ?>
+<?php include("$root/inc/footer.php") ?>

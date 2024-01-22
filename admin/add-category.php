@@ -1,4 +1,5 @@
-<?php include('inc/header.php'); ?>
+<?php include("../global.php"); ?>
+<?php include("$root/admin/inc/header.php"); ?>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -86,4 +87,4 @@
 <!-- /.control-sidebar -->
 
 
-<?php include('inc/footer.php'); ?>
+<?php include("$root/admin/inc/footer.php"); ?>

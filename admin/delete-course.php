@@ -2,7 +2,7 @@
 
 session_start();
 
-include('inc/functions.php');
+include("$root/inc/functions.php");
 
 $conn = dbconnect();
 

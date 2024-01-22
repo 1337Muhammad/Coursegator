@@ -1,4 +1,5 @@
-<?php include('inc/header.php'); ?>
+<?php include("../global.php"); ?>
+<?php include("$root/admin/inc/header.php"); ?>
 
 <?php
 $conn = dbconnect();
@@ -129,4 +130,4 @@ mysqli_close($conn);
 <!-- /.control-sidebar -->
 
 
-<?php include('inc/footer.php'); ?>
+<?php include("$root/admin/inc/footer.php"); ?>

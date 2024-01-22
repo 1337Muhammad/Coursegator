@@ -1,4 +1,5 @@
-<?php include('inc/header.php') ?>
+<?php include("global.php") ?>
+<?php include("$root/inc/header.php") ?>
 
 <?php
 if (isset($_GET['id'])) {
@@ -70,4 +71,4 @@ if (mysqli_num_rows($result) > 0) {
 <?php endif ?>
 
 
-<?php include('inc/footer.php') ?>
+<?php include("$root/inc/footer.php") ?>
