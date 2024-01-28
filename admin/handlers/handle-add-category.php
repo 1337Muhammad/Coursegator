@@ -2,9 +2,18 @@
 session_start();
 
 include("../../global.php");
-include("$root/admin/inc/functions.php");
 
-$conn = dbconnect();
+// start connecting to db
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coursegator";
+// create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// check connection
+if(!$conn){
+    die("Connection failed: ".mysqli_connect_error());
+}
 
 // dd($_POST);
 
@@ -15,19 +24,22 @@ if (isset($_POST['submit'])) {
     $errors = [];
 
     //name: required | string | max:255
-    if (empty($name)) {
-        $errors[] = "Name is required!";
-    } elseif(!is_string($name)){
-        $errors[] = "Name must be string";
-    } elseif(strlen($name) > 255) {
-        $errors[] = "Name must be less than 255 character";
-    }
+    $errors[] = validateName($name);
+
+    $errors = cleanErrors($errors);
 
     if (empty($errors)) {
         $sql = "INSERT INTO categories(name)
         VALUES ('$name')";
 
-        if(mysqli_query($conn, $sql) == true){
+            $isInserted = insert(
+            $conn,
+            "categories",
+            "`name`",
+            "'$name'"
+        );
+
+        if($isInserted){
             //redirect with success
             $_SESSION['success'] = "Category added succesfully";
         }

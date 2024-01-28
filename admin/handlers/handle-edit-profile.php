@@ -2,9 +2,18 @@
 session_start();
 
 include("../../global.php");
-include("$root/admin/inc/functions.php");
 
-$conn = dbconnect();
+// start connecting to db
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coursegator";
+// create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 // dd($_POST);
 
@@ -20,22 +29,12 @@ if (isset($_POST['submit'])) {
     $errors = [];
 
     //name: required | string | max:255
-    if (empty($name)) {
-        $errors[] = "Name is required!";
-    } elseif (!is_string($name)) {
-        $errors[] = "Name must be string";
-    } elseif (strlen($name) > 255) {
-        $errors[] = "Name must be less than 255 character";
-    }
+    $errors[] = validateName($name);
 
     //email: required | email | max:255
-    if (empty($email)) {
-        $errors[] = "Email is required!";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Email must be string";
-    } elseif (strlen($email) > 255) {
-        $errors[] = "Email must be less than 255 character";
-    }
+    $errors[] = validateEmail($email);
+
+    $errors = cleanErrors($errors);
 
     //password is not required
     if (!empty($password)) {
@@ -56,17 +55,29 @@ if (isset($_POST['submit'])) {
     if (empty($errors)) {
 
         if (empty($password)) {
-            $sql = "UPDATE admins SET `name` = '$name',
-                    email = '$email'
-                    WHERE id = $id";
+            // $sql = "UPDATE admins SET `name` = '$name',
+            //         email = '$email'
+            //         WHERE id = $id";
+            $isUpdated = update(
+                $conn,
+                "admins",
+                "`name`='$name', `email`='$email', `password` = '$passHash'",
+                "id = $id"
+            );
         } else {
-            $sql = "UPDATE admins SET `name` = '$name',
-                    email = '$email',
-                    `password` = '$passHash'
-                    WHERE id = $id";
+            // $sql = "UPDATE admins SET `name` = '$name',
+            //         email = '$email',
+            //         `password` = '$passHash'
+            //         WHERE id = $id";
+            $isUpdated = update(
+                $conn,
+                "admins",
+                "`name`='$name', `email`='$email', `password` = '$passHash'",
+                "id = $id"
+            );
         }
 
-        if (mysqli_query($conn, $sql) == true) {
+        if ($isUpdated) {
             //redirect with success
             $_SESSION['success'] = "Profile updated successfully.";
             $_SESSION['adminName'] = $name;
@@ -76,7 +87,7 @@ if (isset($_POST['submit'])) {
     } else {
         $_SESSION['errors'] = $errors;
     }
-            // dd($_SESSION);
+    // dd($_SESSION);
 
     header("location: $url" . "admin/edit-profile.php");
     die;

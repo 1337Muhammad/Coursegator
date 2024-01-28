@@ -3,11 +3,10 @@
 
 <?php
 
-$conn = dbconnect();
-
 $sql = "SELECT courses.*, categories.id AS catId, categories.name AS catName 
         FROM courses JOIN categories
-        ON courses.category_id = categories.id";
+        ON courses.category_id = categories.id
+        ORDER BY courses.created_at ASC";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
@@ -48,7 +47,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
                 <div class="col-12">
-                    <?php include($url . 'admin/inc/success.php') ?>
+                    <?php include('inc/success.php') ?>
                     <?php 
                         if(isset($_SESSION['error'])){
                             echo $_SESSION['error'];

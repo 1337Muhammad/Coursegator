@@ -2,9 +2,18 @@
 session_start();
 
 include("../../global.php");
-include("$root/admin/inc/functions.php");
 
-$conn = dbconnect();
+// start connecting to db
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coursegator";
+// create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// check connection
+if(!$conn){
+    die("Connection failed: ".mysqli_connect_error());
+}
 
 // dd($_POST);
 
@@ -16,16 +25,14 @@ if (isset($_POST['submit'])) {
     $errors = [];
 
     //email: required | email | max:255
-    if (empty($email)) {
-        $errors[] = "Email is required!";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) or strlen($email) > 255) {
-        $errors[] = "Invalid email format!";
-    }
+    $errors[] = validateEmail($email);
 
     //password: required | string | -min:12- | -max:255-
     if (empty($password)) {
         $errors[] = "password is required!";
     }
+
+    $errors = cleanErrors($errors);
 
     // (email & password format is good) --->  check if email exist then check if credentials matches
     if (empty($errors)) {
@@ -46,11 +53,11 @@ if (isset($_POST['submit'])) {
             }
         }
         
-        // mail not in admins table  &&/or incorrect password 
+        // mail not in admins table  &/or incorrect password 
         $_SESSION['errors'][] = "Invalid Credentials!";
 
-    } else { // if $errors is not empty
-        // dd('not empty');
+    } else { 
+        // if $errors is not empty
         $_SESSION['errors'] = $errors;
     }
 

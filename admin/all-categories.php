@@ -3,18 +3,7 @@
 
 <?php
 
-$conn = dbconnect();
-
-$sql = "SELECT * FROM categories";
-$result = mysqli_query($conn, $sql);
-
-if (mysqli_num_rows($result) > 0) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $categories = [];
-}
-
-// dd($categories);
+$categories = select($conn, '*', 'categories');
 
 ?>
 
@@ -46,7 +35,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
                 <div class="col-12">
-                    <?php include($url . 'admin/inc/success.php') ?>
+                    <?php include('inc/success.php') ?>
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Showing categories</h3>

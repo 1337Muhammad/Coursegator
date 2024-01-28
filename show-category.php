@@ -2,23 +2,22 @@
 <?php include("$root/inc/header.php") ?>
 
 <?php 
-dd($_GET);
+
+    //ToDo: sanitize and check if valid -then- check if that categoriy exist in db
     if(isset($_GET['id'])){
-        //sanitize and check if valid -then- check if that categoriy exist in db
         $id = $_GET['id'];
     }else{
-        //in case no id is given default is 1
+        //in case no id is given default is 1 or even abort(404)
         $id = 1;
     }
 
-    $sql = "SELECT `name` FROM categories WHERE id = $id";
-    $result = mysqli_query($conn, $sql);
-
-    if(mysqli_num_rows($result) > 0){
-        $categoryName = mysqli_fetch_row($result)[0];
+    $row = selectOne($conn, '`name`', '`categories`', "WHERE `id`   = $id");
+    if(!empty($row)){
+        $categoryName = $row['name'];
     }else{
         $categoryName = "No Category Found!";
     }
+
 ?>
 
 <!-- bradcam_area_start -->
@@ -63,13 +62,13 @@ dd($_GET);
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="single_courses">
                                     <div class="thumb">
-                                        <a href="#">
+                                        <a href="<?= $url ?>show-course.php?id=<?= $course['CourseId'] ?>">
                                             <img src="<?= $url ?>uploads/courses/<?= $course['img'] ?>" alt="">
                                         </a>
                                     </div>
                                     <div class="courses_info">
                                         <span><?= $course['CategoryName'] ?></span>
-                                        <h3><a href="#"><?= $course['CourseName'] ?></a></h3>
+                                        <h3><a href="<?= $url ?>show-course.php?id=<?= $course['CourseId'] ?>"><?= $course['CourseName'] ?></a></h3>
                                     </div>
                                 </div>
                             </div>

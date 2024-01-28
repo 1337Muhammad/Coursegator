@@ -1,14 +1,24 @@
 <?php
 session_start();
-include('inc/functions.php');
+
+// start connecting to db
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coursegator";
+// create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// check connection
+if(!$conn){
+    die("Connection failed: ".mysqli_connect_error());
+}
 
 if(!isset($_SESSION['isLogin']) or $_SESSION['isLogin'] == false){
   header('location: login.php');
   die;
 }
 
-$conn = dbconnect();
-// dd($conn);
+
 ?>
 
 <!DOCTYPE html>
@@ -25,9 +35,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>Coursegator</title>
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="assets/css/fontawesome.all.css">
+  <link rel="stylesheet" href="<?= $url ?>admin/assets/css/fontawesome.all.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="assets/css/adminlte.css">
+  <link rel="stylesheet" href="<?= $url ?>admin/assets/css/adminlte.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -70,17 +80,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Page three
-              </p>
-            </a>
-          </li> -->
 
           <!-- Categories -->
           <li class="nav-item has-treeview menu-open">
@@ -144,7 +143,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
-<!-- Enrollments -->
+<!-- Edit Profile -->
           <li class="nav-item">
             <a href="edit-profile.php" class="nav-link ">
               <i class="nav-icon fas fa-pen"></i>

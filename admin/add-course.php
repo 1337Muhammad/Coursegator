@@ -3,17 +3,16 @@
 
 <?php
 
-$conn = dbconnect();
+$categories = select($conn, '`id`, `name`', 'categories');
+// $sql = "SELECT `id`, `name` FROM categories";
 
-$sql = "SELECT `id`, `name` FROM categories";
+// $result = mysqli_query($conn, $sql);
 
-$result = mysqli_query($conn, $sql);
-
-if (mysqli_num_rows($result) > 0) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $categories = [];
-}
+// if (mysqli_num_rows($result) > 0) {
+//     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+// } else {
+//     $categories = [];
+// }
 ?>
 
 <!-- Content Wrapper. Contains page content -->
@@ -46,7 +45,7 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="card-header">
                             <h3 class="card-title">Add Course</h3>
                         </div>
-                        <?php include($url . 'admin/inc/errors.php') ?>
+                        <?php include('inc/errors.php') ?>
                         <form role="form" method="POST" action="<?= $url ?>admin/handlers/handle-add-course.php" enctype="multipart/form-data">
                             <div class="card-body">
                                 <div class="form-group">

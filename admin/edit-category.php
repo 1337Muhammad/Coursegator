@@ -2,7 +2,6 @@
 <?php include("$root/admin/inc/header.php"); ?>
 
 <?php
-$conn = dbconnect();
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];
@@ -56,7 +55,7 @@ if(isset($_GET['id'])){
                         <div class="card-header">
                             <h3 class="card-title">Edit Category</h3>
                         </div>
-                        <?php include($url . 'admin/inc/errors.php') ?>
+                        <?php include('inc/errors.php') ?>
                         <form role="form" method="POST" action="<?= $url ?>admin/handlers/handle-edit-category.php?id=<?= $id ?>">
                             <div class="card-body">
                                 <div class="form-group">

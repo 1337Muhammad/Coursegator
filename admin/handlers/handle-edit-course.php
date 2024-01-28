@@ -2,9 +2,18 @@
 session_start();
 
 include("../../global.php");
-include("$root/admin/inc/functions.php");
 
-$conn = dbconnect();
+// start connecting to db
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coursegator";
+// create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 // dd($_POST);
 
@@ -29,13 +38,7 @@ if (isset($_POST['submit'])) {
     $errors = [];
 
     //name: required | string | max:255
-    if (empty($name)) {
-        $errors[] = "Name is required!";
-    } elseif (!is_string($name)) {
-        $errors[] = "Name must be string";
-    } elseif (strlen($name) > 255) {
-        $errors[] = "Name must be less than 255 character";
-    }
+    $errors[] = validateName($name);
 
     //desc: required | string
     if (empty($desc)) {
@@ -64,6 +67,8 @@ if (isset($_POST['submit'])) {
         }
     }
 
+    $errors = cleanErrors($errors);
+
     if (empty($errors)) {
 
         if (!empty($img['name'])) {
@@ -75,16 +80,28 @@ if (isset($_POST['submit'])) {
             move_uploaded_file($imgTmpName, "../../uploads/courses/$imgNewName");
 
 
-            $sql = "UPDATE courses SET `name`='$name', `desc`='$desc', `category_id`=$category_id, img='$imgNewName'
-                WHERE id = $id";
+            // $sql = "UPDATE courses SET `name`='$name', `desc`='$desc', `category_id`=$category_id, img='$imgNewName'
+            //     WHERE id = $id";
 
+            $isUpdated = update(
+                $conn,
+                "courses",
+                "`name`='$name', `desc`='$desc', `category_id`=$category_id, img='$imgNewName'",
+                "id = $id"
+            );
         } else {
-            $sql = "UPDATE courses SET `name`='$name', `desc`='$desc', `category_id`=$category_id
-                WHERE id = $id";
+            // $sql = "UPDATE courses SET `name`='$name', `desc`='$desc', `category_id`=$category_id
+            //     WHERE id = $id";
+            $isUpdated = update(
+                $conn,
+                "courses",
+                "`name`='$name', `desc`='$desc', `category_id`=$category_id",
+                "id = $id"
+            );
         }
 
         //sql query
-        if (mysqli_query($conn, $sql) == true) {
+        if ($isUpdated) {
             $_SESSION['success'] = "Course updated succesfully";
             mysqli_close($conn);
         } else {

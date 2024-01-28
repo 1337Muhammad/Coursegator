@@ -2,24 +2,21 @@
 <?php include("$root/inc/header.php") ?>
 
 <?php
+    //ToDo: sanitize and check if valid -then- check if that id exist in db
     if (isset($_GET['id'])) {
-        //sanitize and check if valid -then- check if that categoriy exist in db
         $id = $_GET['id'];
     } else {
         $id = 1;
     }
 
-    $sql = "SELECT `name`, `desc`, `img` FROM courses WHERE id = $id";
-    $result = mysqli_query($conn, $sql);
-
     $found = false;
 
-    if (mysqli_num_rows($result) > 0) {
-        $course = mysqli_fetch_assoc($result);
+    $row = selectOne($conn, '`name`, `desc`, `img`', '`courses`', "WHERE `id`   = $id");
+    if(!empty($row)){
+        $course = $row;
         $found = true;
-        // dd($courseName);
-    } else {
-        $course['name'] = "No Courses Found";
+    }else{
+        $course['name'] = "No Course Found!";
     }
 ?>
 

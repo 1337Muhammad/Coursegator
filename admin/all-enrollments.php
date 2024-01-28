@@ -3,8 +3,6 @@
 
 <?php
 
-$conn = dbconnect();
-
 $sql = "SELECT reservations.id, reservations.name, reservations.email, reservations.created_at, courses.name AS courseName
         FROM reservations JOIN courses
         ON reservations.course_id = courses.id";
@@ -47,7 +45,7 @@ if (mysqli_num_rows($result) > 0) {
 
 
                 <div class="col-12">
-                    <?php include($url . 'admin/inc/success.php') ?>
+                    <?php include('inc/success.php') ?>
                     <?php 
                         if(isset($_SESSION['error'])){
                             echo $_SESSION['error'];

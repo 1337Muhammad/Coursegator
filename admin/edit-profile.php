@@ -2,21 +2,22 @@
 <?php include("$root/admin/inc/header.php"); ?>
 
 <?php
-$conn = dbconnect();
 
 $id = $_SESSION['adminId'];
-$sql = "SELECT `name`, email FROM admins WHERE id = $id";
-$result = mysqli_query($conn, $sql);
+// $sql = "SELECT `name`, email FROM admins WHERE id = $id";
+// $result = mysqli_query($conn, $sql);
 
-if (is_bool($result)) {
+$admin = selectOne($conn, '`name`, `email`', '`admins`', "WHERE `id` = $id");
+
+// dd($admin);
+if (is_bool($admin)) {
     throw new Exception("Error Processing Request", 1);
 }
+// if (($result) > 0) {
+//     $admin = mysqli_fetch_assoc($result);
+// }
 
-if (mysqli_num_rows($result) > 0) {
-    $admin = mysqli_fetch_assoc($result);
-}
 
-// dd($categories);
 
 ?>
 
@@ -50,8 +51,8 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="card-header">
                             <h3 class="card-title">Edit Profile</h3>
                         </div>
-                        <?php include($url . 'admin/inc/success.php') ?>
-                        <?php include($url . 'admin/inc/errors.php') ?>
+                        <?php include('inc/success.php') ?>
+                        <?php include('inc/errors.php') ?>
                         <form role="form" method="POST" action="<?= $url ?>admin/handlers/handle-edit-profile.php?id=<?= $id ?>">
                             <div class="card-body">
                                 <div class="form-group">

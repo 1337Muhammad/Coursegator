@@ -2,9 +2,18 @@
 session_start();
 
 include("../../global.php");
-include("$root/admin/inc/functions.php");
 
-$conn = dbconnect();
+// start connecting to db
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coursegator";
+// create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 // dd($_POST);
 
@@ -25,13 +34,7 @@ if (isset($_POST['submit'])) {
     $errors = [];
 
     //name: required | string | max:255
-    if (empty($name)) {
-        $errors[] = "Name is required!";
-    } elseif (!is_string($name)) {
-        $errors[] = "Name must be string";
-    } elseif (strlen($name) > 255) {
-        $errors[] = "Name must be less than 255 character";
-    }
+    $errors[] = validateName($name);
 
     //desc: required | string
     if (empty($desc)) {
@@ -56,9 +59,11 @@ if (isset($_POST['submit'])) {
         $errors[] = "Allowed extensions: png, jpg & jpeg";
     } elseif ($imgSizeMb > 2) {
         $errors[] = "Image maximum size is 2MB";
-    }elseif(empty($img['name'])){
+    } elseif (empty($img['name'])) {
         $errors[] = "Image is required";
     }
+
+    $errors = cleanErrors($errors);
 
     if (empty($errors)) {
         //upload image
@@ -66,30 +71,36 @@ if (isset($_POST['submit'])) {
         $imgNewName = "$randStr.$imgExtension";
         // dd($imgNewName);
 
-        $uploaded = move_uploaded_file($imgTmpName, "$url/uploads/courses/$imgNewName");
-
+        $uploaded = move_uploaded_file($imgTmpName, "$root"."/uploads/courses/$imgNewName");
+// dd(var_export($uploaded));
         if ($uploaded) {
             //insert into db
-            $sql = "INSERT INTO courses (`name`, `desc`, `category_id`, `img`)
-            VALUES ('$name', '$desc', '$category_id', '$imgNewName')";
+            $isInserted = insert(
+                $conn,
+                "courses",
+                "`name`, `desc`, `category_id`, `img`",
+                "'$name', '$desc', '$category_id', '$imgNewName'"
+            );
 
-            if (mysqli_query($conn, $sql) == true) {
+            if ($isInserted) {
                 //redirect with success
                 $_SESSION['success'] = "Course added succesfully";
             } else {
                 $_SESSION['error'] = "Failed to add new course!";
+                mysqli_close($conn);
                 header("location: $url" . "admin/all-courses.php");
                 die;
-                mysqli_close($conn);
             }
         }
 
-
+        mysqli_close($conn);
         header("location: $url" . "admin/all-courses.php");
         die;
     } else {
         //store $errors in session
         $_SESSION['errors'] = $errors;
+        mysqli_close($conn);
         header("location: $url" . "admin/add-course.php");
+        die;
     }
 }

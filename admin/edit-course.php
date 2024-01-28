@@ -2,7 +2,6 @@
 <?php include("$root/admin/inc/header.php"); ?>
 
 <?php
-$conn = dbconnect();
 
 // dd($_GET);
 $courseId = $_GET['courseId'];
@@ -54,7 +53,7 @@ mysqli_close($conn);
                         <div class="card-header">
                             <h3 class="card-title">Edit Course</h3>
                         </div>
-                        <?php include($url . 'admin/inc/errors.php') ?>
+                        <?php include('inc/errors.php') ?>
                         <?php 
                             if(isset($_SESSION['error'])){
                                 echo $_SESSION['error'];

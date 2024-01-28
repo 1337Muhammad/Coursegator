@@ -2,9 +2,19 @@
 
 session_start();
 
-include("$root/inc/functions.php");
+include("../global.php");
 
-$conn = dbconnect();
+// start connecting to db
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coursegator";
+// create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// check connection
+if(!$conn){
+    die("Connection failed: ".mysqli_connect_error());
+}
 
 /**
  * ToDo:
@@ -12,9 +22,9 @@ $conn = dbconnect();
 if(isset($_GET['id'])){
     $id = $_GET['id'];
 
-    $sql = "DELETE FROM categories WHERE id = $id";
+    $isDeletd = delete($conn, 'categories', "id = '$id'");
 
-    if(mysqli_query($conn, $sql)){
+    if($isDeletd){
         $_SESSION['success'] = "Category has been deleted";
     }
 

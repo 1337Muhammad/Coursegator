@@ -3,9 +3,18 @@
 session_start();
 
 include("../global.php");
-include("$root/inc/functions.php");
 
-$conn = dbconnect();
+// start connecting to db
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coursegator";
+// create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// check connection
+if(!$conn){
+    die("Connection failed: ".mysqli_connect_error());
+}
 
 // dd($_POST['name']);
 
@@ -20,19 +29,12 @@ if(isset($_POST['submit'])){
     //validation 
     $errors = [];
 
-    //name: required | string non numeric | max:255 | min: 3
-    if(empty($name)){
-        $errors[] = "Name is required!";
-    }elseif(! is_string($name) or is_numeric($name) or strlen($name) > 255 or strlen($name) < 3){
-        $errors[] = "Invalid name!";
-    }
+    //name: required | string non numeric | max:255
+    $errors[] = validateName($name);
 
     //email: required | email | max:100
-        if(empty($email)){
-        $errors[] = "Email is required!";
-    }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL) or strlen($email) > 100){
-        $errors[] = "Invalid email format!";
-    }
+    $errors[] = validateEmail($email);
+
 
     //phone: required | string | max:255
     if(empty($phone)){
@@ -55,27 +57,28 @@ if(isset($_POST['submit'])){
         $errors[] = "Invalid course selection!";
     }
 
+    $errors = cleanErrors($errors);
 
+    // dd($errors);
     if(empty($errors)){
         //isnert data into db
-        $sql = "INSERT INTO reservations (`name`, email, phone, speciality, course_id)
-        VALUES ('$name', '$email', '$phone', '$spec', '$course_id')";
+        $isInserted = insert(
+            $conn,
+            "reservations",
+            "`name`, email, phone, speciality, course_id",
+            "'$name', '$email', '$phone', '$spec', '$course_id'"
+        );
 
-        // dd(var_export(mysqli_query($conn, $sql)));
-
-        if(mysqli_query($conn, $sql)){
+        if($isInserted){
             $_SESSION['success']= "Enrolled Successfuly";
         }else{
-            // Mustn't happens in production..
+            // JUSTiNcASE
             $_SESSION['queryError'] = "Error inserting into db !!!";
         }
 
-
-        //redirect with success msg
     }else{
         //store errors in session
         $_SESSION['errors'] = $errors;
-        //redirect with error msg
     }
 
     header("location: $url" . "enroll.php");
