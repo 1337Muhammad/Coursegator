@@ -17,8 +17,9 @@ if(!$conn){
 
 // dd($_POST);
 
-if (isset($_POST['submit'])) {
-    $name = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['name'])));
+if ($request->postHas('submit')) {
+
+    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
 
     //validation 
     $errors = [];
@@ -45,13 +46,15 @@ if (isset($_POST['submit'])) {
         }
 
         mysqli_close($conn);
-
         header('location: ../all-categories.php');
         die;
-    }else{
-        //store $errors in session
-        $_SESSION['errors'] = $errors;
-        header("location: $url" . "admin/add-category.php");
     }
-
+}else{
+    $errors = ['Ops! Please Try Again'];
 }
+
+//store $errors in session
+$_SESSION['errors'] = $errors;
+mysqli_close($conn);
+header("location: $url" . "admin/add-category.php");
+die;

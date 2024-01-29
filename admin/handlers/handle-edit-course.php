@@ -17,13 +17,13 @@ if (!$conn) {
 
 // dd($_POST);
 
-if (isset($_POST['submit'])) {
-    $id = $_GET['id'];
+if ($request->postHas('submit')) {
+    $id = $request->get('id');
     $oldImgName = $_GET['oldImgName'];
 
-    $name = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['name'])));
-    $desc = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['desc'])));
-    $category_id = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['category_id'])));
+    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
+    $desc = mysqli_real_escape_string($conn, $request->trimCleanPost('desc'));
+    $category_id = mysqli_real_escape_string($conn, $request->trimCleanPost('category_id'));
 
     $img = $_FILES['img'];
     if (!empty($img['name'])) {

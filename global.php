@@ -7,3 +7,10 @@ $root = __DIR__;
 
 // Absolute url for (imgs / css / js ) files
 $url = "http://localhost/";
+
+// classes
+require_once("$root" ."/classes/Request.php");
+
+
+// objects
+$request = new Request;

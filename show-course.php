@@ -3,8 +3,8 @@
 
 <?php
     //ToDo: sanitize and check if valid -then- check if that id exist in db
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
+    if ($request->getHas('id')) {
+        $id = $request->get('id');
     } else {
         $id = 1;
     }

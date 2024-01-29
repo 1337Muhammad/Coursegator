@@ -17,9 +17,9 @@ if(!$conn){
 
 // dd($_POST);
 
-if (isset($_POST['submit'])) {
-    $email = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['email'])));
-    $password = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['password'])));
+if ($request->postHas('submit')) {
+    $email = mysqli_real_escape_string($conn, $request->trimCleanPost('email'));
+    $password = mysqli_real_escape_string($conn, trim($request->post('password')));
 
     //validation 
     $errors = [];

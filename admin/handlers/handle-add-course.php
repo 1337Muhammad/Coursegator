@@ -15,12 +15,14 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// dd($_POST);
+// for validation 
+$errors = [];
 
-if (isset($_POST['submit'])) {
-    $name = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['name'])));
-    $desc = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['desc'])));
-    $category_id = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['category_id'])));
+if ($request->postHas('submit')) {
+
+    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
+    $desc = mysqli_real_escape_string($conn, $request->trimCleanPost('desc'));
+    $category_id = mysqli_real_escape_string($conn, $request->trimCleanPost('category_id'));
 
     $img = $_FILES['img'];
 
@@ -29,9 +31,6 @@ if (isset($_POST['submit'])) {
     $imgTmpName = $img['tmp_name'];
     $imgError = $img['error'];
     $imgSize = $img['size'];
-
-    //validation 
-    $errors = [];
 
     //name: required | string | max:255
     $errors[] = validateName($name);
@@ -72,7 +71,6 @@ if (isset($_POST['submit'])) {
         // dd($imgNewName);
 
         $uploaded = move_uploaded_file($imgTmpName, "$root"."/uploads/courses/$imgNewName");
-// dd(var_export($uploaded));
         if ($uploaded) {
             //insert into db
             $isInserted = insert(
@@ -96,11 +94,13 @@ if (isset($_POST['submit'])) {
         mysqli_close($conn);
         header("location: $url" . "admin/all-courses.php");
         die;
-    } else {
-        //store $errors in session
-        $_SESSION['errors'] = $errors;
-        mysqli_close($conn);
-        header("location: $url" . "admin/add-course.php");
-        die;
     }
+}else{
+    // no "submit" sent
+    $errors = ['Ops! Please Try Again'];
 }
+//store $errors in session
+$_SESSION['errors'] = $errors;
+mysqli_close($conn);
+header("location: $url" . "admin/add-course.php");
+die;

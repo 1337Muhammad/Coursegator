@@ -3,8 +3,8 @@
 
 <?php
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+if ($request->getHas('id')) {
+    $id = $request->get('id');
 
     $sql = "SELECT reservations.*, courses.name AS courseName, categories.name AS categoryName
                 FROM reservations 
@@ -68,7 +68,7 @@ if (isset($_GET['id'])) {
                                 <strong>Speciality:</strong> <?= $reserve['speciality'] ?>
                             </p>
                             <p>
-                                <strong>Enrolled Course:</strong> <?= $reserve['courseName'] ?>    <strong>Category:</strong> <?= $reserve['categoryName'] ?>
+                                <strong>Enrolled Course:</strong> <?= $reserve['courseName'] ?> <strong>Category:</strong> <?= $reserve['categoryName'] ?>
                             </p>
                             <p>
                                 <strong>Date:</strong> <?= $reserve['created_at'] ?>

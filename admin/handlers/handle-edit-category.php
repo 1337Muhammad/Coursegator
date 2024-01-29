@@ -17,10 +17,10 @@ if(!$conn){
 
 // dd($_POST);
 
-if (isset($_POST['submit'])) {
-    $id = $_GET['id'] ?? false;
+if ($request->postHas('submit')) {
+    $id = $request->getHas('id') ? $request->get('id') : false;
 
-    $name = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['name'])));
+    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
 
     //validation 
     $errors = [];

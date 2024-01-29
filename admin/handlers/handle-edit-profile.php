@@ -15,15 +15,17 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// dd($_POST);
+// dd(var_export($request->post('submit')));
 
-if (isset($_POST['submit'])) {
+if ($request->postHas('submit')) {
     $id = $_SESSION['adminId'];
+    // dd($id);
 
-    $name = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['name'])));
-    $email = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['email'])));
-    $password = $_POST['password'];
-    $confirmPassword = $_POST['confirmPassword'];
+    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
+    $email = mysqli_real_escape_string($conn, $request->trimCleanPost('email'));
+    // dd($email);
+    $password = $request->post('password');
+    $confirmPassword = $request->post('confirmPassword');
 
     //validation 
     $errors = [];
@@ -88,7 +90,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['errors'] = $errors;
     }
     // dd($_SESSION);
-
-    header("location: $url" . "admin/edit-profile.php");
-    die;
 }
+
+header("location: $url" . "admin/edit-profile.php");
+die;
