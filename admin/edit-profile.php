@@ -3,19 +3,14 @@
 
 <?php
 
-$id = $_SESSION['adminId'];
-// $sql = "SELECT `name`, email FROM admins WHERE id = $id";
-// $result = mysqli_query($conn, $sql);
+$id = $session->get('adminId');
 
 $admin = selectOne($conn, '`name`, `email`', '`admins`', "WHERE `id` = $id");
 
-// dd($admin);
 if (is_bool($admin)) {
     throw new Exception("Error Processing Request", 1);
 }
-// if (($result) > 0) {
-//     $admin = mysqli_fetch_assoc($result);
-// }
+
 
 
 

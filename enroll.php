@@ -14,18 +14,18 @@
         <div class="row">
             <div class="col-12">
                 <h2 class="contact-title">Enroll</h2>
-                <?php if(isset($_SESSION['success'])): ?>
-                    <div class="alert alert-success"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+                <?php if($session->has('success')): ?>
+                    <div class="alert alert-success"><?php echo $session->get('success'); $session->remove('success'); ?></div>
                 <?php endif?>
 
-                <?php if(isset($_SESSION['queryError'])): ?>
-                    <div class="alert alert-danger"><?php echo $_SESSION['queryError']; unset($_SESSION['queryError']); ?></div>
+                <?php if($session->has('queryError')): ?>
+                    <div class="alert alert-danger"><?php echo $session->get('queryError'); $session->remove('queryError'); ?></div>
                 <?php endif ?>
 
-                <?php if(isset($_SESSION['errors'])): ?>
-                    <?php foreach($_SESSION['errors'] as $error): ?>
+                <?php if($session->has('errors')): ?>
+                    <?php foreach($session->get('errors') as $error): ?>
                         <div class="alert alert-danger"><?= $error ?></div>
-                    <?php endforeach; unset($_SESSION['errors']); ?>
+                    <?php endforeach; $session->remove('errors'); ?>
                 <?php endif ?>
             </div>
             <div class="col-lg-8">

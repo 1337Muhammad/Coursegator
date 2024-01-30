@@ -1,8 +1,8 @@
 <?php
 
-session_start();
+require_once('../global.php');
 
 session_destroy();
 
-header('location: login.php');
+header("location: $url" . "admin/login.php");
 die;

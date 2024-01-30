@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include("../../global.php");
 
 // start connecting to db
@@ -102,10 +100,10 @@ if ($request->postHas('submit')) {
 
         //sql query
         if ($isUpdated) {
-            $_SESSION['success'] = "Course updated succesfully";
+            $session->set('success', "Course updated succesfully");
             mysqli_close($conn);
         } else {
-            $_SESSION['error'] = "Failed to edit new course!";
+            $session->set('error', "Failed to edit new course!");
             mysqli_close($conn);
             header("location: $url" . "admin/all-courses.php");
             die;
@@ -116,7 +114,7 @@ if ($request->postHas('submit')) {
         die;
     } else {
         //if $errors store it in session
-        $_SESSION['errors'] = $errors;
+        $session->set('errors', $errors);
         header("location: $url" . "admin/edit-course.php?courseId=$id");
         die;
     }

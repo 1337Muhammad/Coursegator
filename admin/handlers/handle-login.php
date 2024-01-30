@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include("../../global.php");
 
 // start connecting to db
@@ -44,9 +42,9 @@ if ($request->postHas('submit')) {
             $admin = mysqli_fetch_assoc($result);
             if (password_verify($password, $admin['password'])) {
                 //all goood. kollo tmam. --> store admin data in session
-                $_SESSION['adminId'] = $admin['id'];
-                $_SESSION['adminName'] = $admin['name'];
-                $_SESSION['isLogin'] = true;
+                $session->set('adminId', $admin['id']);
+                $session->set('adminName', $admin['name']);
+                $session->set('isLogin', true);
 
                 header('location: /admin/index.php');
                 die;
@@ -58,7 +56,7 @@ if ($request->postHas('submit')) {
 
     } else { 
         // if $errors is not empty
-        $_SESSION['errors'] = $errors;
+        $session->set('errors', $errors);
     }
 
     //goto login if $errors found

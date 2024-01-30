@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include("../../global.php");
 
 // start connecting to db
@@ -82,9 +80,9 @@ if ($request->postHas('submit')) {
 
             if ($isInserted) {
                 //redirect with success
-                $_SESSION['success'] = "Course added succesfully";
+                $session->set("success", "Course added succesfully");
             } else {
-                $_SESSION['error'] = "Failed to add new course!";
+                $session->set("error", "Failed to add new course!");
                 mysqli_close($conn);
                 header("location: $url" . "admin/all-courses.php");
                 die;
@@ -100,7 +98,7 @@ if ($request->postHas('submit')) {
     $errors = ['Ops! Please Try Again'];
 }
 //store $errors in session
-$_SESSION['errors'] = $errors;
+$session->set('errors', $errors);
 mysqli_close($conn);
 header("location: $url" . "admin/add-course.php");
 die;

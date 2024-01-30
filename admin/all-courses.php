@@ -13,7 +13,7 @@ if (mysqli_num_rows($result) > 0) {
     $courses = mysqli_fetch_all($result, MYSQLI_ASSOC);
 } else {
     $courses = [];
-} 
+}
 
 // dd($courses);
 
@@ -48,11 +48,11 @@ if (mysqli_num_rows($result) > 0) {
 
                 <div class="col-12">
                     <?php include('inc/success.php') ?>
-                    <?php 
-                        if(isset($_SESSION['error'])){
-                            echo $_SESSION['error'];
-                            unset($_SESSION['error']);
-                        }
+                    <?php
+                    if ($session->has('error')) {
+                        echo $session->get('error');
+                        $session->remove('error');
+                    }
                     ?>
                     <div class="card">
                         <div class="card-header">
@@ -83,19 +83,19 @@ if (mysqli_num_rows($result) > 0) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($courses as $key => $course): ?>
-                                    <tr>
-                                        <td><?= $key + 1 ?></td>
-                                        <td><?= $course['name'] ?></td>
-                                        <td><img height="50px" src="<?= $url ?>/uploads/courses/<?= $course['img'] ?>"></td>
-                                        <td><?= $course['catName'] ?></td>
-                                        <td><?= strlen($course['desc'] > 35)? substr($course['desc'], 0, 35) . ' ...': $course['desc'] ?></td>
-                                        <td><?= $course['created_at'] ?></td>
-                                        <td>
-                                            <a class="btn btn-sm btn-info" href="edit-course.php?courseId=<?= $course['id'] ?>">Edit</a>
-                                            <a class="btn btn-sm btn-danger" href="delete-course.php?id=<?=$course['id']?>&oldImgName=<?=$course['img']?>">Delete</a>
-                                        </td>
-                                    </tr>
+                                    <?php foreach ($courses as $key => $course) : ?>
+                                        <tr>
+                                            <td><?= $key + 1 ?></td>
+                                            <td><?= $course['name'] ?></td>
+                                            <td><img height="50px" src="<?= $url ?>/uploads/courses/<?= $course['img'] ?>"></td>
+                                            <td><?= $course['catName'] ?></td>
+                                            <td><?= strlen($course['desc'] > 35) ? substr($course['desc'], 0, 35) . ' ...' : $course['desc'] ?></td>
+                                            <td><?= $course['created_at'] ?></td>
+                                            <td>
+                                                <a class="btn btn-sm btn-info" href="edit-course.php?courseId=<?= $course['id'] ?>">Edit</a>
+                                                <a class="btn btn-sm btn-danger" href="delete-course.php?id=<?= $course['id'] ?>&oldImgName=<?= $course['img'] ?>">Delete</a>
+                                            </td>
+                                        </tr>
                                     <?php endforeach ?>
                                 </tbody>
                             </table>

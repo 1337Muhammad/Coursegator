@@ -12,7 +12,7 @@ if (mysqli_num_rows($result) > 0) {
     $reserves = mysqli_fetch_all($result, MYSQLI_ASSOC);
 } else {
     $reserves = [];
-} 
+}
 
 
 ?>
@@ -46,11 +46,11 @@ if (mysqli_num_rows($result) > 0) {
 
                 <div class="col-12">
                     <?php include('inc/success.php') ?>
-                    <?php 
-                        if(isset($_SESSION['error'])){
-                            echo $_SESSION['error'];
-                            unset($_SESSION['error']);
-                        }
+                    <?php
+                    if ($session->has('error')) {
+                        echo $session->get('error');
+                        $session->remove('error');
+                    }
                     ?>
                     <div class="card">
                         <div class="card-header">
@@ -80,19 +80,19 @@ if (mysqli_num_rows($result) > 0) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($reserves as $key => $reserve): ?>
-                                    <tr>
-                                        <td><?= $key + 1 ?></td>
-                                        <td><?= $reserve['name'] ?></td>
-                                        <td><?= $reserve['email'] ?></td>
-                                        <td><?= $reserve['courseName'] ?></td>
-                                        <td><?= $reserve['created_at'] ?></td>
-                                        <td>
-                                            <a class="btn btn-sm btn-primary" href="show-enrollment.php?id=<?= $reserve['id'] ?>">Show</a>
-                                            <!-- <a class="btn btn-sm btn-info" href="edit-course.php?courseId=<?= $reserve['id'] ?>">Edit</a> -->
-                                            <!-- <a class="btn btn-sm btn-danger" href="delete-course.php?id=<?=$reserve['id']?>&oldImgName=<?=$reserve['img']?>">Delete</a> -->
-                                        </td>
-                                    </tr>
+                                    <?php foreach ($reserves as $key => $reserve) : ?>
+                                        <tr>
+                                            <td><?= $key + 1 ?></td>
+                                            <td><?= $reserve['name'] ?></td>
+                                            <td><?= $reserve['email'] ?></td>
+                                            <td><?= $reserve['courseName'] ?></td>
+                                            <td><?= $reserve['created_at'] ?></td>
+                                            <td>
+                                                <a class="btn btn-sm btn-primary" href="show-enrollment.php?id=<?= $reserve['id'] ?>">Show</a>
+                                                <!-- <a class="btn btn-sm btn-info" href="edit-course.php?courseId=<?= $reserve['id'] ?>">Edit</a> -->
+                                                <!-- <a class="btn btn-sm btn-danger" href="delete-course.php?id=<?= $reserve['id'] ?>&oldImgName=<?= $reserve['img'] ?>">Delete</a> -->
+                                            </td>
+                                        </tr>
                                     <?php endforeach ?>
                                 </tbody>
                             </table>

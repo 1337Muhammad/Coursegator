@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-
 include("../global.php");
 
 // start connecting to db
@@ -70,10 +67,10 @@ if ($request->postHas('submit')) {
         );
 
         if ($isInserted) {
-            $_SESSION['success'] = "Enrolled Successfuly";
+            $session->set("success", "Enrolled Successfuly");
         } else {
             // JUSTiNcASE
-            $_SESSION['queryError'] = "Error inserting into db !!!";
+            $session->set("queryError", "Error inserting into db !");
         }
     }
     
@@ -83,7 +80,7 @@ if ($request->postHas('submit')) {
 }
 
 //store errors in session
-$_SESSION['errors'] = $errors;
+$session->set('errors', $errors);
 mysqli_close($conn);
 header("location: $url" . "enroll.php");
 die;

@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include('../global.php');
 ?>
 <!DOCTYPE html>
@@ -26,12 +25,7 @@
 
         <div class="card">
             <div class="card-body login-card-body">
-                <?php if (isset($_SESSION['errors'])) : ?>
-                    <?php foreach ($_SESSION['errors'] as $error) : ?>
-                        <div class="alert alert-danger"><?= $error ?></div>
-                    <?php endforeach;
-                    unset($_SESSION['errors']); ?>
-                <?php endif ?>
+                <?php require_once('inc/errors.php') ?>
                 <form action="<?= $url ?>admin/handlers/handle-login.php" method="post">
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email">

@@ -9,8 +9,10 @@ $root = __DIR__;
 $url = "http://localhost/";
 
 // classes
-require_once("$root" ."/classes/Request.php");
+require_once("$root" . "/classes/Request.php");
+require_once("$root" . "/classes/Session.php");
 
 
 // objects
 $request = new Request;
+$session = new Session;

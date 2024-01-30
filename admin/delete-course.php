@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 include('../global.php');
 
 // dd("$root/functions.php");
@@ -26,21 +24,19 @@ if(!$conn){
 if(isset($_GET['id'])){
     $id = $_GET['id'];
 
-    $del = false;
-    $oldImgName = $_GET['oldImgName'];
-    if(file_exists("$root/uploads/courses/$oldImgName")){
-        $del = unlink("$root/uploads/courses/$oldImgName");
-    }
-    // dd(var_export($del));
-
     $isDeletd = delete($conn, 'courses', "`id` = '$id'");
-    // dd(var_export($isDeletd));
     if($isDeletd){
-        $_SESSION['success'] = "Course has been deleted";
-    }
+        $session->set("success", "Course has been deleted");
 
+        // delete image file
+        $del = false;
+        $oldImgName = $_GET['oldImgName'];
+        if(file_exists("$root/uploads/courses/$oldImgName")){
+            $del = unlink("$root/uploads/courses/$oldImgName");
+        }
+    }
 
 }
 
-header('location: all-courses.php');
+header("location: $url" . "admin/all-courses.php");
 die;

@@ -1,7 +1,5 @@
 <?php 
 
-session_start();
-
 //dbconnect
 $servername= "localhost";
 $username= "root";

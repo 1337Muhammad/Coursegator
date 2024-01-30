@@ -63,7 +63,7 @@ function insert($conn, $table, $fields, $values){
 
 function update($conn, $table, $set, $condition){
     $sql = "UPDATE $table SET $set WHERE $condition";
-    $isUpdated = mysqli_query($conn, $sql);
+    $isUpdated = mysqli_query($conn, $sql) or die( "Error occurred! Please try again: " . mysqli_error($conn));
     return $isUpdated;
 }
 
@@ -71,7 +71,7 @@ function update($conn, $table, $set, $condition){
 function delete($conn, $table, $condition){
     $sql = "DELETE FROM $table WHERE $condition";
     // dd($sql);
-    $isDeleted = mysqli_query($conn, $sql);
+    $isDeleted = mysqli_query($conn, $sql) or die( "Error occurred! Please try again: " . mysqli_error($conn));
     return $isDeleted;
 }
 

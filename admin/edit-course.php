@@ -55,8 +55,9 @@ mysqli_close($conn);
                         </div>
                         <?php include('inc/errors.php') ?>
                         <?php 
-                            if(isset($_SESSION['error'])){
-                                echo $_SESSION['error'];
+                            if($session->has('error')){
+                                echo $session->get('error');
+                                $session->remove('error');
                             }
                          ?>
                         <form role="form" method="POST" action="<?= $url ?>admin/handlers/handle-edit-course.php?id=<?=$course['id']?>&oldImgName=<?=$course['img']?>" enctype="multipart/form-data">

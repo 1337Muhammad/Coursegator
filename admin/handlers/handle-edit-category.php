@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include("../../global.php");
 
 // start connecting to db
@@ -41,17 +39,19 @@ if ($request->postHas('submit')) {
 
         if($isUpdated){
             //redirect with success
-            $_SESSION['success'] = "Category updated.";
+            $session->set('success', "Category updated.");
         }
 
         mysqli_close($conn);
-
         header("location: $url" . "admin/all-categories.php");
         die;
     }else{
         //store $errors in session
-        $_SESSION['errors'] = $errors;
+        mysqli_close($conn);
+        $session->set('errors', $errors);
         header("location: $url" . "admin/edit-category.php?id=$id");
     }
+
+// // //                                  haaqqqAAAAaAaAaAaAaaAaAaAZ                // // //
 
 }

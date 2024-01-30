@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 // start connecting to db
 $servername = "localhost";
 $username = "root";
@@ -13,8 +11,8 @@ if(!$conn){
     die("Connection failed: ".mysqli_connect_error());
 }
 
-if(!isset($_SESSION['isLogin']) or $_SESSION['isLogin'] == false){
-  header('location: login.php');
+if(!$session->has('isLogin') or $session->has('isLogin') == false){
+  header("location: $url" . "admin/login.php");
   die;
 }
 
@@ -73,7 +71,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="<?= $url ?>/admin/assets/img/user-profile.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?= $_SESSION['adminName'] ?></a>
+          <a href="#" class="d-block"><?= $session->get('adminName') ?></a>
         </div>
       </div>
 

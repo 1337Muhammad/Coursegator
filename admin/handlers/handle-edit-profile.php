@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include("../../global.php");
 
 // start connecting to db
@@ -15,10 +13,11 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// dd(var_export($request->post('submit')));
+//validation 
+$errors = [];
 
 if ($request->postHas('submit')) {
-    $id = $_SESSION['adminId'];
+    $id = $session->get('adminId');
     // dd($id);
 
     $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
@@ -27,17 +26,11 @@ if ($request->postHas('submit')) {
     $password = $request->post('password');
     $confirmPassword = $request->post('confirmPassword');
 
-    //validation 
-    $errors = [];
-
     //name: required | string | max:255
     $errors[] = validateName($name);
 
     //email: required | email | max:255
     $errors[] = validateEmail($email);
-
-    $errors = cleanErrors($errors);
-
     //password is not required
     if (!empty($password)) {
         // Validate password and passwordConfirm
@@ -52,25 +45,18 @@ if ($request->postHas('submit')) {
         $passHash = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    // dd($errors);
+    $errors = cleanErrors($errors);
 
     if (empty($errors)) {
 
         if (empty($password)) {
-            // $sql = "UPDATE admins SET `name` = '$name',
-            //         email = '$email'
-            //         WHERE id = $id";
             $isUpdated = update(
                 $conn,
                 "admins",
-                "`name`='$name', `email`='$email', `password` = '$passHash'",
+                "`name`='$name', `email`='$email'",
                 "id = $id"
             );
         } else {
-            // $sql = "UPDATE admins SET `name` = '$name',
-            //         email = '$email',
-            //         `password` = '$passHash'
-            //         WHERE id = $id";
             $isUpdated = update(
                 $conn,
                 "admins",
@@ -81,16 +67,25 @@ if ($request->postHas('submit')) {
 
         if ($isUpdated) {
             //redirect with success
-            $_SESSION['success'] = "Profile updated successfully.";
-            $_SESSION['adminName'] = $name;
-        }
+            $session->set('success', "Profile updated successfully.");
+            $session->set('adminName', $name);
+        } else {
+            //error on query
+            $errors = ['Error updateing database!'];
+            $session->set('errors', $errors);
 
-        mysqli_close($conn);
-    } else {
-        $_SESSION['errors'] = $errors;
+            mysqli_close($conn);
+            header("location: $url" . "admin/edit-profile.php");
+            die;
+        }
     }
-    // dd($_SESSION);
+
+} else {
+    $errors = ['Ops! Please Try Again'];
 }
 
+$session->set('errors', $errors);
+
+mysqli_close($conn);
 header("location: $url" . "admin/edit-profile.php");
 die;

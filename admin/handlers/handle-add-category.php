@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include("../../global.php");
 
 // start connecting to db
@@ -42,7 +40,7 @@ if ($request->postHas('submit')) {
 
         if($isInserted){
             //redirect with success
-            $_SESSION['success'] = "Category added succesfully";
+            $session->set('success', "Category added succesfully");
         }
 
         mysqli_close($conn);
@@ -54,7 +52,7 @@ if ($request->postHas('submit')) {
 }
 
 //store $errors in session
-$_SESSION['errors'] = $errors;
+$session->set('errors', $errors);
 mysqli_close($conn);
 header("location: $url" . "admin/add-category.php");
 die;

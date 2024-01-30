@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 include("../global.php");
 
 // start connecting to db
@@ -25,10 +23,10 @@ if(isset($_GET['id'])){
     $isDeletd = delete($conn, 'categories', "id = '$id'");
 
     if($isDeletd){
-        $_SESSION['success'] = "Category has been deleted";
+        $session->set("success", "Category has been deleted");
     }
 
 }
 
-header('location: all-categories.php');
+header("location: $url" . "admin/all-categories.php");
 die;
