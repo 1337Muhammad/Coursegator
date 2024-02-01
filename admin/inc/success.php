@@ -1,6 +1,6 @@
-<?php if(isset($_SESSION['success'])): ?>
+<?php if($session->has('success')): ?>
     <div class="alert alert-success">
-        <?= $_SESSION['success'] ?>
-        <?php unset($_SESSION['success']) ?>
+        <?= $session->get('success') ?>
+        <?php $session->remove('success') ?>
     </div>
 <?php endif?>

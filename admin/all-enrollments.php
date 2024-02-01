@@ -3,17 +3,11 @@
 
 <?php
 
-$sql = "SELECT reservations.id, reservations.name, reservations.email, reservations.created_at, courses.name AS courseName
-        FROM reservations JOIN courses
-        ON reservations.course_id = courses.id";
-$result = mysqli_query($conn, $sql);
-
-if (mysqli_num_rows($result) > 0) {
-    $reserves = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $reserves = [];
-}
-
+$reserves = $db->selectJoin(
+    "reservations.id, reservations.name, reservations.email, reservations.created_at, courses.name AS courseName",
+    "reservations JOIN courses",
+    "reservations.course_id = courses.id"
+);
 
 ?>
 
@@ -111,16 +105,6 @@ if (mysqli_num_rows($result) > 0) {
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
-<!-- Control Sidebar -->
-<!-- <aside class="control-sidebar control-sidebar-dark">
-    Control sidebar content goes here
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside> -->
-<!-- /.control-sidebar -->
 
 
 <?php include("$root/admin/inc/footer.php"); ?>

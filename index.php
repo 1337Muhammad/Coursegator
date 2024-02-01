@@ -25,17 +25,18 @@
 </div>
 <!-- slider_area_end -->
 <?php
-//count of categories, courses & reservations in one query to db
-$sql = "SELECT 
-    (SELECT COUNT(id) FROM courses) AS courses_count,
-    (SELECT COUNT(id) FROM categories) AS categories_count,
-    (SELECT COUNT(id) FROM reservations) AS reservations_count";
-$result = mysqli_query($conn, $sql);
-$counts = mysqli_fetch_assoc($result);
+    //count of categories, courses & reservations in one query to db
+    // $sql = "SELECT 
+    //     (SELECT COUNT(id) FROM courses) AS courses_count,
+    //     (SELECT COUNT(id) FROM categories) AS categories_count,
+    //     (SELECT COUNT(id) FROM reservations) AS reservations_count";
+    // $result = mysqli_query($conn, $sql);
+    // $counts = mysqli_fetch_assoc($result);
 
-$coursesCount = $counts['courses_count'];
-$categoriesCount = $counts['categories_count'];
-$reservesCount = $counts['reservations_count'];
+    $coursesCount = $db->selectRowCount("courses");
+    $categoriesCount = $db->selectRowCount("categories");
+    $reservesCount = $db->selectRowCount("reservations");
+
 ?>
 
 <!-- about_area_start -->
@@ -103,21 +104,13 @@ $reservesCount = $counts['reservations_count'];
     <div class="all_courses">
         <div class="container">
             <?php
-                $sql = "SELECT courses.id AS CourseId, courses.name AS CourseName, img, categories.name AS CategoryName FROM courses 
-                JOIN categories 
-                ON courses.category_id = categories.id
-                ORDER BY courses.id DESC
-                LIMIT 3";
 
-                $result = mysqli_query($conn, $sql);
-
-                if (mysqli_num_rows($result) > 0) {
-                    // die('all good');
-                    $latestCourses = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                    // dd($latestCourses);
-                } else {
-                    $latestCourses = [];
-                }
+                $latestCourses = $db->selectJoin(
+                    "courses.id AS CourseId, courses.name AS CourseName, img, categories.name AS CategoryName",
+                    "courses JOIN categories",
+                    "courses.category_id = categories.id",
+                    "ORDER BY courses.id DESC LIMIT 3"
+                );
             ?>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">

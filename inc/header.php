@@ -1,21 +1,3 @@
-<?php 
-
-//dbconnect
-$servername= "localhost";
-$username= "root";
-$password= "";
-$dbname= "coursegator";
-
-//create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-//check connection
-if(!$conn){
-    die("Connection failed: ".mysqli_connect_error());
-}
-
-
-?>
-
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -64,14 +46,7 @@ if(!$conn){
                             </div>
                         </div>
                         <?php 
-                            $sql = "SELECT `id`, `name` FROM categories";
-                            $result = mysqli_query($conn, $sql);
-
-                            if(mysqli_num_rows($result) > 0){
-                                $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                            }else{
-                                $categories = [];
-                            }
+                            $categories = $db->select("`id`, `name`", "categories");
                         ?>
                         <div class="col-xl-7 col-lg-7">
                             <div class="main-menu  d-none d-lg-block">

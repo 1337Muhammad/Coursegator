@@ -1,15 +1,4 @@
 <?php
-// start connecting to db
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coursegator";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// check connection
-if(!$conn){
-    die("Connection failed: ".mysqli_connect_error());
-}
 
 if(!$session->has('isLogin') or $session->has('isLogin') == false){
   header("location: $url" . "admin/login.php");

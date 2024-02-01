@@ -8,19 +8,19 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $numPerPage = 3;
 $offset = $numPerPage * ($page - 1);
 
-$row = selectOne($conn, "COUNT(id) AS coursesCount", "courses");
-$coursesCount = $row['coursesCount'];
+// $row = selectOne($conn, "COUNT(id) AS coursesCount", "courses");
+$coursesCount = $db->selectRowCount("courses");
+// $coursesCount = $row['coursesCount'];
 
 $lastPage = ceil($coursesCount / $numPerPage);
 
 /** Get all courses through pagination */
-$courses = selectJoin(
-    $conn,
+$courses = $db->selectJoin(
     "courses.id AS CourseId, courses.name AS CourseName, img, categories.name AS CategoryName",
     "courses JOIN categories",
     "courses.category_id = categories.id",
     "ORDER BY courses.id DESC
-        LIMIT $numPerPage OFFSET $offset"
+    LIMIT $numPerPage OFFSET $offset"
 );
 ?>
 <!-- bradcam_area_start -->

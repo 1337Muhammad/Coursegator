@@ -1,23 +1,9 @@
 <?php
 include("../../global.php");
 
-// start connecting to db
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coursegator";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// check connection
-if(!$conn){
-    die("Connection failed: ".mysqli_connect_error());
-}
-
-// dd($_POST);
-
 if ($request->postHas('submit')) {
 
-    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
+    $name = $db->evadeSql($request->trimCleanPost('name'));
 
     //validation 
     $errors = [];
@@ -30,9 +16,7 @@ if ($request->postHas('submit')) {
     if (empty($errors)) {
         $sql = "INSERT INTO categories(name)
         VALUES ('$name')";
-
-            $isInserted = insert(
-            $conn,
+            $isInserted = $db->insert(
             "categories",
             "`name`",
             "'$name'"
@@ -43,8 +27,7 @@ if ($request->postHas('submit')) {
             $session->set('success', "Category added succesfully");
         }
 
-        mysqli_close($conn);
-        header('location: ../all-categories.php');
+        header("location: $url" . "all-categories.php");
         die;
     }
 }else{
@@ -53,6 +36,5 @@ if ($request->postHas('submit')) {
 
 //store $errors in session
 $session->set('errors', $errors);
-mysqli_close($conn);
 header("location: $url" . "admin/add-category.php");
 die;

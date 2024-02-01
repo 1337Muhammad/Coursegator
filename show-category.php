@@ -11,7 +11,7 @@
         $id = 1;
     }
 
-    $row = selectOne($conn, '`name`', '`categories`', "WHERE `id`   = $id");
+    $row = $db->selectOne('`name`', '`categories`', "WHERE `id`   = $id");
     if(!empty($row)){
         $categoryName = $row['name'];
     }else{
@@ -40,19 +40,26 @@
     <div class="all_courses">
         <div class="container">
             <?php
-            $sql = "SELECT courses.id AS CourseId, courses.name AS CourseName, img, categories.name AS CategoryName FROM courses 
-                JOIN categories 
-                ON courses.category_id = categories.id
-                WHERE categories.id = $id
-                ORDER BY courses.id DESC";
+                // $sql = "SELECT courses.id AS CourseId, courses.name AS CourseName, img, categories.name AS CategoryName FROM courses 
+                //     JOIN categories 
+                //     ON courses.category_id = categories.id
+                //     WHERE categories.id = $id
+                //     ORDER BY courses.id DESC";
 
-            $result = mysqli_query($conn, $sql);
+                // $result = mysqli_query($conn, $sql);
 
-            if (mysqli_num_rows($result) > 0) {
-                $catCourses = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            } else {
-                $catCourses = [];
-            }
+                // if (mysqli_num_rows($result) > 0) {
+                //     $catCourses = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                // } else {
+                //     $catCourses = [];
+                // }
+
+                $catCourses = $db->selectJoin(
+                    "courses.id AS CourseId, courses.name AS CourseName, img, categories.name AS CategoryName",
+                    "courses JOIN categories",
+                    "courses.category_id = categories.id",
+                    "WHERE categories.id = $id ORDER BY courses.id DESC"
+                );
             ?>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">

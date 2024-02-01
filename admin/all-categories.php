@@ -3,7 +3,7 @@
 
 <?php
 
-$categories = select($conn, '*', 'categories');
+$categories = $db->select('*', 'categories');
 
 ?>
 

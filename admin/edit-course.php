@@ -6,21 +6,10 @@
 // dd($_GET);
 $courseId = $_GET['courseId'];
 
-$sql = "SELECT * FROM courses WHERE id = $courseId";
-$result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) {
-    $course = mysqli_fetch_assoc($result);
-}
+$course = $db->selectOne("*", "courses", "WHERE id = $courseId");
 
-$sql = "SELECT `id`, `name` FROM categories";
-$result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) {
-    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $categories = [];
-}
+$categories = $db->select("`id`, `name`", "categories");
 
-mysqli_close($conn);
 ?>
 
 <!-- Content Wrapper. Contains page content -->

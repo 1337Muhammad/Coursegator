@@ -1,23 +1,11 @@
 <?php
 include("../../global.php");
 
-// start connecting to db
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coursegator";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// check connection
-if(!$conn){
-    die("Connection failed: ".mysqli_connect_error());
-}
-
-// dd($_POST);
-
 if ($request->postHas('submit')) {
-    $email = mysqli_real_escape_string($conn, $request->trimCleanPost('email'));
-    $password = mysqli_real_escape_string($conn, trim($request->post('password')));
+    $email = $db->evadeSql($request->trimCleanPost('email'));
+    $password = $db->evadeSql($request->trimCleanPost('password'));
+
+    // $db->evadeSql($request->trimCleanPost('');
 
     //validation 
     $errors = [];
@@ -35,11 +23,25 @@ if ($request->postHas('submit')) {
     // (email & password format is good) --->  check if email exist then check if credentials matches
     if (empty($errors)) {
         //select row by mail
-        $sql = "SELECT * FROM admins where email = '$email'";
-        $result = mysqli_query($conn, $sql);
+        // $sql = "SELECT * FROM admins where email = '$email'";
+        // $result = mysqli_query($conn, $sql);
 
-        if (mysqli_num_rows($result) > 0) {
-            $admin = mysqli_fetch_assoc($result);
+        // if (mysqli_num_rows($result) > 0) {
+        //     $admin = mysqli_fetch_assoc($result);
+        //     if (password_verify($password, $admin['password'])) {
+        //         //all goood. kollo tmam. --> store admin data in session
+        //         $session->set('adminId', $admin['id']);
+        //         $session->set('adminName', $admin['name']);
+        //         $session->set('isLogin', true);
+
+        //         header('location: /admin/index.php');
+        //         die;
+        //     }
+        // }
+        
+        $admin = $db->selectOne("*", "admins", "WHERE email = '$email'");
+        if($admin){
+            echo "\$admin = " . var_export($admin);
             if (password_verify($password, $admin['password'])) {
                 //all goood. kollo tmam. --> store admin data in session
                 $session->set('adminId', $admin['id']);
@@ -50,7 +52,7 @@ if ($request->postHas('submit')) {
                 die;
             }
         }
-        
+
         // mail not in admins table  &/or incorrect password 
         $_SESSION['errors'][] = "Invalid Credentials!";
 

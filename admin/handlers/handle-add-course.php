@@ -1,26 +1,14 @@
 <?php
 include("../../global.php");
 
-// start connecting to db
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coursegator";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
 // for validation 
 $errors = [];
 
 if ($request->postHas('submit')) {
 
-    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
-    $desc = mysqli_real_escape_string($conn, $request->trimCleanPost('desc'));
-    $category_id = mysqli_real_escape_string($conn, $request->trimCleanPost('category_id'));
+    $name = $db->evadeSql($request->trimCleanPost('name'));
+    $desc = $db->evadeSql($request->trimCleanPost('desc'));
+    $category_id = $db->evadeSql($request->trimCleanPost('category_id'));
 
     $img = $_FILES['img'];
 
@@ -66,13 +54,13 @@ if ($request->postHas('submit')) {
         //upload image
         $randStr = uniqid() . "_" . $category_id;
         $imgNewName = "$randStr.$imgExtension";
+        $newImgPath = "$root/uploads/courses/$imgNewName";
         // dd($imgNewName);
 
-        $uploaded = move_uploaded_file($imgTmpName, "$root"."/uploads/courses/$imgNewName");
+        $uploaded = move_uploaded_file($imgTmpName, $newImgPath);
         if ($uploaded) {
             //insert into db
-            $isInserted = insert(
-                $conn,
+            $isInserted = $db->insert(
                 "courses",
                 "`name`, `desc`, `category_id`, `img`",
                 "'$name', '$desc', '$category_id', '$imgNewName'"
@@ -83,13 +71,11 @@ if ($request->postHas('submit')) {
                 $session->set("success", "Course added succesfully");
             } else {
                 $session->set("error", "Failed to add new course!");
-                mysqli_close($conn);
                 header("location: $url" . "admin/all-courses.php");
                 die;
             }
         }
 
-        mysqli_close($conn);
         header("location: $url" . "admin/all-courses.php");
         die;
     }
@@ -99,6 +85,5 @@ if ($request->postHas('submit')) {
 }
 //store $errors in session
 $session->set('errors', $errors);
-mysqli_close($conn);
 header("location: $url" . "admin/add-course.php");
 die;

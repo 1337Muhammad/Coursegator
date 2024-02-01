@@ -53,16 +53,7 @@
                         </div>
 
                         <?php
-                            $sql = "SELECT `id`, `name` FROM courses";
-
-                            $result = mysqli_query($conn, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                $courses = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                            } else {
-                                $courses = [];
-                            }
-                            // dd($courses);
+                            $courses = $db->select("`id`, `name`", "courses");
                         ?>
 
                         <div class="col-sm-6">

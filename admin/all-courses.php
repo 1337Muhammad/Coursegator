@@ -3,19 +3,12 @@
 
 <?php
 
-$sql = "SELECT courses.*, categories.id AS catId, categories.name AS catName 
-        FROM courses JOIN categories
-        ON courses.category_id = categories.id
-        ORDER BY courses.created_at ASC";
-$result = mysqli_query($conn, $sql);
-
-if (mysqli_num_rows($result) > 0) {
-    $courses = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    $courses = [];
-}
-
-// dd($courses);
+$courses = $db->selectJoin(
+    "courses.*, categories.id AS catId, categories.name AS catName",
+    "courses JOIN categories",
+    "courses.category_id = categories.id",
+    "ORDER BY courses.created_at ASC"
+);
 
 ?>
 
@@ -114,16 +107,6 @@ if (mysqli_num_rows($result) > 0) {
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
-<!-- Control Sidebar -->
-<!-- <aside class="control-sidebar control-sidebar-dark">
-    Control sidebar content goes here
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside> -->
-<!-- /.control-sidebar -->
 
 
 <?php include("$root/admin/inc/footer.php"); ?>

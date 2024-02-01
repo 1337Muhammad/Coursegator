@@ -3,21 +3,10 @@
 
 <?php
 
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    $sql = "SELECT `name` FROM categories WHERE id = $id";
-    $result = mysqli_query($conn, $sql);
-    
-    if(is_bool($result)){
-        throw new Exception("Error Processing Request", 1);
-    }
+if($request->getHas('id')){
+    $id = $request->get('id');
 
-    if (mysqli_num_rows($result) > 0) {
-        $category = mysqli_fetch_assoc($result);
-    } else {
-        $category = [];
-    }
-
+    $category = $db->selectOne("`name`", "categories", "WHERE id = $id");
 }
 
 
@@ -79,16 +68,6 @@ if(isset($_GET['id'])){
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
-<!-- Control Sidebar -->
-<!-- <aside class="control-sidebar control-sidebar-dark">
-    Control sidebar content goes here
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside> -->
-<!-- /.control-sidebar -->
 
 
 <?php include("$root/admin/inc/footer.php"); ?>

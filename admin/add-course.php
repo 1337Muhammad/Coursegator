@@ -3,16 +3,8 @@
 
 <?php
 
-$categories = select($conn, '`id`, `name`', 'categories');
-// $sql = "SELECT `id`, `name` FROM categories";
+$categories = $db->select('`id`, `name`', 'categories');
 
-// $result = mysqli_query($conn, $sql);
-
-// if (mysqli_num_rows($result) > 0) {
-//     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-// } else {
-//     $categories = [];
-// }
 ?>
 
 <!-- Content Wrapper. Contains page content -->

@@ -11,7 +11,7 @@
 
     $found = false;
 
-    $row = selectOne($conn, '`name`, `desc`, `img`', '`courses`', "WHERE `id`   = $id");
+    $row = $db->selectOne('`name`, `desc`, `img`', '`courses`', "WHERE `id`   = $id");
     if(!empty($row)){
         $course = $row;
         $found = true;

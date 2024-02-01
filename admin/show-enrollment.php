@@ -6,22 +6,30 @@
 if ($request->getHas('id')) {
     $id = $request->get('id');
 
-    $sql = "SELECT reservations.*, courses.name AS courseName, categories.name AS categoryName
-                FROM reservations 
-                JOIN courses ON reservations.course_id = courses.id
-                JOIN categories ON courses.category_id = categories.id
-                WHERE reservations.id = $id";
+    // $sql = "SELECT reservations.*, courses.name AS courseName, categories.name AS categoryName
+    //             FROM reservations 
+    //             JOIN courses ON reservations.course_id = courses.id
+    //             JOIN categories ON courses.category_id = categories.id
+    //             WHERE reservations.id = $id";
     // $sql = "SELECT reservations.*, courses.name AS courseName
     //         FROM reservations JOIN courses
     //         ON reservations.course_id = courses.id
     //         WHERE reservations.id = $id";
 
-    $result = mysqli_query($conn, $sql);
+    // $result = mysqli_query($conn, $sql);
 
     // dd($result);
-    if (mysqli_num_rows($result) > 0) {
-        $reserve = mysqli_fetch_assoc($result);
-    }
+    // if (mysqli_num_rows($result) > 0) {
+    //     $reserve = mysqli_fetch_assoc($result);
+    // }
+
+    $reserve = $db->selectJoinOne(
+        "reservations.*, courses.name AS courseName, categories.name AS categoryName",
+        "reservations JOIN courses",
+        "reservations.course_id = courses.id JOIN categories ON courses.category_id = categories.id",
+        "WHERE reservations.id = $id"
+    );
+    
 }
 
 

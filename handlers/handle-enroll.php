@@ -1,27 +1,15 @@
 <?php
 include("../global.php");
 
-// start connecting to db
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coursegator";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// dd($_POST['name']);
 
 if ($request->postHas('submit')) {
-    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
-    $email = mysqli_real_escape_string($conn, $request->trimCleanPost('email'));
-    $phone = mysqli_real_escape_string($conn, $request->trimCleanPost('phone'));
-    $spec = mysqli_real_escape_string($conn, $request->trimCleanPost('spec'));
 
-    $course_id = mysqli_real_escape_string($conn, $request->trimCleanPost('course_id'));
+    $name = $db->evadeSql($request->trimCleanPost('name'));
+    $email = $db->evadeSql($request->trimCleanPost('email'));
+    $phone = $db->evadeSql($request->trimCleanPost('phone'));
+    $spec = $db->evadeSql($request->trimCleanPost('spec'));
+
+    $course_id = $db->evadeSql($request->trimCleanPost('course_id'));
 
     //validation 
     $errors = [];
@@ -31,7 +19,6 @@ if ($request->postHas('submit')) {
 
     //email: required | email | max:100
     $errors[] = validateEmail($email);
-
 
     //phone: required | string | max:255
     if (empty($phone)) {
@@ -49,7 +36,7 @@ if ($request->postHas('submit')) {
 
     //course_id: required | [in:courses.id]
     $sql = "SELECT id FROM courses WHERE id = $course_id";
-    $result = mysqli_query($conn, $sql);
+    $result = mysqli_query($db->getConn(), $sql);
     if (empty($course_id) or mysqli_num_rows($result) != 1) {
         $errors[] = "Invalid course selection!";
     }
@@ -59,8 +46,7 @@ if ($request->postHas('submit')) {
     // dd($errors);
     if (empty($errors)) {
         //isnert data into db
-        $isInserted = insert(
-            $conn,
+        $isInserted = $db->insert(
             "reservations",
             "`name`, email, phone, speciality, course_id",
             "'$name', '$email', '$phone', '$spec', '$course_id'"
@@ -81,6 +67,5 @@ if ($request->postHas('submit')) {
 
 //store errors in session
 $session->set('errors', $errors);
-mysqli_close($conn);
 header("location: $url" . "enroll.php");
 die;

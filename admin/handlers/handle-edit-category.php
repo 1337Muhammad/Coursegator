@@ -1,24 +1,10 @@
 <?php
 include("../../global.php");
 
-// start connecting to db
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coursegator";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// check connection
-if(!$conn){
-    die("Connection failed: ".mysqli_connect_error());
-}
-
-// dd($_POST);
-
 if ($request->postHas('submit')) {
     $id = $request->getHas('id') ? $request->get('id') : false;
 
-    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
+    $name = $db->evadeSql($request->trimCleanPost('name'));
 
     //validation 
     $errors = [];
@@ -30,8 +16,7 @@ if ($request->postHas('submit')) {
 
     if (empty($errors) && $id !== false) {
         
-        $isUpdated = update(
-            $conn,
+        $isUpdated = $db->update(
             "categories",
             "`name` = '$name'",
             "id = $id"
@@ -42,14 +27,13 @@ if ($request->postHas('submit')) {
             $session->set('success', "Category updated.");
         }
 
-        mysqli_close($conn);
         header("location: $url" . "admin/all-categories.php");
         die;
     }else{
         //store $errors in session
-        mysqli_close($conn);
         $session->set('errors', $errors);
         header("location: $url" . "admin/edit-category.php?id=$id");
+        die;
     }
 
 // // //                                  haaqqqAAAAaAaAaAaAaaAaAaAZ                // // //

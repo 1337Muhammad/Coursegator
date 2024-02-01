@@ -5,14 +5,11 @@
 
 $id = $session->get('adminId');
 
-$admin = selectOne($conn, '`name`, `email`', '`admins`', "WHERE `id` = $id");
+$admin = $db->selectOne('`name`, `email`', '`admins`', "WHERE `id` = $id");
 
 if (is_bool($admin)) {
     throw new Exception("Error Processing Request", 1);
 }
-
-
-
 
 ?>
 

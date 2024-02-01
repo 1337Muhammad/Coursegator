@@ -1,27 +1,14 @@
 <?php
 include("../../global.php");
 
-// start connecting to db
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coursegator";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// dd($_POST);
 
 if ($request->postHas('submit')) {
     $id = $request->get('id');
-    $oldImgName = $_GET['oldImgName'];
+    $oldImgName = $request->get('oldImgName');
 
-    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
-    $desc = mysqli_real_escape_string($conn, $request->trimCleanPost('desc'));
-    $category_id = mysqli_real_escape_string($conn, $request->trimCleanPost('category_id'));
+    $name = $db->evadeSql($request->trimCleanPost('name'));
+    $desc = $db->evadeSql($request->trimCleanPost('desc'));
+    $category_id = $db->evadeSql($request->trimCleanPost('category_id'));
 
     $img = $_FILES['img'];
     if (!empty($img['name'])) {
@@ -74,24 +61,17 @@ if ($request->postHas('submit')) {
             unlink("../../uploads/courses/$oldImgName");
             $randStr = uniqid() . "_" . $category_id;
             $imgNewName = "$randStr.$imgExtension";
-            // dd($imgNewName);
-            move_uploaded_file($imgTmpName, "../../uploads/courses/$imgNewName");
+            $newImgPath = "$root/uploads/courses/$imgNewName";
 
+            move_uploaded_file($imgTmpName, $newImgPath);
 
-            // $sql = "UPDATE courses SET `name`='$name', `desc`='$desc', `category_id`=$category_id, img='$imgNewName'
-            //     WHERE id = $id";
-
-            $isUpdated = update(
-                $conn,
+            $isUpdated = $db->update(
                 "courses",
                 "`name`='$name', `desc`='$desc', `category_id`=$category_id, img='$imgNewName'",
                 "id = $id"
             );
         } else {
-            // $sql = "UPDATE courses SET `name`='$name', `desc`='$desc', `category_id`=$category_id
-            //     WHERE id = $id";
-            $isUpdated = update(
-                $conn,
+            $isUpdated = $db->update(
                 "courses",
                 "`name`='$name', `desc`='$desc', `category_id`=$category_id",
                 "id = $id"
@@ -101,10 +81,8 @@ if ($request->postHas('submit')) {
         //sql query
         if ($isUpdated) {
             $session->set('success', "Course updated succesfully");
-            mysqli_close($conn);
         } else {
             $session->set('error', "Failed to edit new course!");
-            mysqli_close($conn);
             header("location: $url" . "admin/all-courses.php");
             die;
         }

@@ -2,7 +2,7 @@
 
 require_once('../global.php');
 
-session_destroy();
+$session->destroy();
 
-header("location: $url" . "admin/login.php");
+header("location: $url" . "login.php");
 die;

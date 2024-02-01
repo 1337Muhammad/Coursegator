@@ -1,17 +1,6 @@
 <?php
 include("../../global.php");
 
-// start connecting to db
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coursegator";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 //validation 
 $errors = [];
@@ -20,8 +9,8 @@ if ($request->postHas('submit')) {
     $id = $session->get('adminId');
     // dd($id);
 
-    $name = mysqli_real_escape_string($conn, $request->trimCleanPost('name'));
-    $email = mysqli_real_escape_string($conn, $request->trimCleanPost('email'));
+    $name = $db->evadeSql($request->trimCleanPost('name'));
+    $email = $db->evadeSql($request->trimCleanPost('email'));
     // dd($email);
     $password = $request->post('password');
     $confirmPassword = $request->post('confirmPassword');
@@ -50,15 +39,13 @@ if ($request->postHas('submit')) {
     if (empty($errors)) {
 
         if (empty($password)) {
-            $isUpdated = update(
-                $conn,
+            $isUpdated = $db->update(
                 "admins",
                 "`name`='$name', `email`='$email'",
                 "id = $id"
             );
         } else {
-            $isUpdated = update(
-                $conn,
+            $isUpdated = $db->update(
                 "admins",
                 "`name`='$name', `email`='$email', `password` = '$passHash'",
                 "id = $id"
@@ -74,18 +61,16 @@ if ($request->postHas('submit')) {
             $errors = ['Error updateing database!'];
             $session->set('errors', $errors);
 
-            mysqli_close($conn);
             header("location: $url" . "admin/edit-profile.php");
             die;
         }
     }
 
 } else {
-    $errors = ['Ops! Please Try Again'];
+    $errors = ['Error Submitting! Please Try Again'];
 }
 
 $session->set('errors', $errors);
 
-mysqli_close($conn);
 header("location: $url" . "admin/edit-profile.php");
 die;
