@@ -18,39 +18,26 @@ if ($request->postHas('submit')) {
     $imgError = $img['error'];
     $imgSize = $img['size'];
 
+    // Validation
+    $validator = new Validator;
     //name: required | string | max:255
-    $errors[] = validateName($name);
+    $validator->str($name, "name" , 255);
 
     //desc: required | string
-    if (empty($desc)) {
-        $errors[] = "Description is required!";
-    } elseif (!is_string($desc)) {
-        $errors[] = "Description must be string";
-    }
+    $validator->str($desc, "describtion");
 
     //category_id: required
-    if (empty($category_id)) {
-        $errors[] = "Category is required!";
-    }
+    $validator->required($category_id, "Category");
 
     //img: required | no_errors | available extension | max 2MB
     $allowedExtensions = ['png', 'jpg', 'jpeg'];
     $imgExtension = pathinfo($imgName, PATHINFO_EXTENSION);
     $imgSizeMb = $imgSize / (1024 ** 2);
 
-    if ($imgError) {
-        $errors[] = "Errors uploading the image";
-    } elseif (!in_array($imgExtension, $allowedExtensions)) {
-        $errors[] = "Allowed extensions: png, jpg & jpeg";
-    } elseif ($imgSizeMb > 2) {
-        $errors[] = "Image maximum size is 2MB";
-    } elseif (empty($img['name'])) {
-        $errors[] = "Image is required";
-    }
+    // image validation
+    $validator->image($imgError, $imgExtension, $imgSizeMb);
 
-    $errors = cleanErrors($errors);
-
-    if (empty($errors)) {
+    if ($validator->valid()) {
         //upload image
         $randStr = uniqid() . "_" . $category_id;
         $imgNewName = "$randStr.$imgExtension";
@@ -84,6 +71,6 @@ if ($request->postHas('submit')) {
     $errors = ['Ops! Please Try Again'];
 }
 //store $errors in session
-$session->set('errors', $errors);
+$session->set('errors', $validator->getErrors());
 header("location: $url" . "admin/add-course.php");
 die;

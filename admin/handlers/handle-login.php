@@ -8,36 +8,19 @@ if ($request->postHas('submit')) {
     // $db->evadeSql($request->trimCleanPost('');
 
     //validation 
+    $validator = new Validator;
     $errors = [];
 
     //email: required | email | max:255
-    $errors[] = validateEmail($email);
+    $validator->email($email);
 
     //password: required | string | -min:12- | -max:255-
-    if (empty($password)) {
-        $errors[] = "password is required!";
-    }
+    $validator->required($password, "Password");
 
-    $errors = cleanErrors($errors);
+    // $errors = cleanErrors($errors);
 
     // (email & password format is good) --->  check if email exist then check if credentials matches
-    if (empty($errors)) {
-        //select row by mail
-        // $sql = "SELECT * FROM admins where email = '$email'";
-        // $result = mysqli_query($conn, $sql);
-
-        // if (mysqli_num_rows($result) > 0) {
-        //     $admin = mysqli_fetch_assoc($result);
-        //     if (password_verify($password, $admin['password'])) {
-        //         //all goood. kollo tmam. --> store admin data in session
-        //         $session->set('adminId', $admin['id']);
-        //         $session->set('adminName', $admin['name']);
-        //         $session->set('isLogin', true);
-
-        //         header('location: /admin/index.php');
-        //         die;
-        //     }
-        // }
+    if ($validator->valid()) {
         
         $admin = $db->selectOne("*", "admins", "WHERE email = '$email'");
         if($admin){
@@ -48,7 +31,7 @@ if ($request->postHas('submit')) {
                 $session->set('adminName', $admin['name']);
                 $session->set('isLogin', true);
 
-                header('location: /admin/index.php');
+                header("location: $url" . "admin/index.php");
                 die;
             }
         }
@@ -58,7 +41,7 @@ if ($request->postHas('submit')) {
 
     } else { 
         // if $errors is not empty
-        $session->set('errors', $errors);
+        $session->set('errors', $validator->getErrors());
     }
 
     //goto login if $errors found

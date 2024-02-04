@@ -7,14 +7,12 @@ if ($request->postHas('submit')) {
     $name = $db->evadeSql($request->trimCleanPost('name'));
 
     //validation 
-    $errors = [];
 
+    $validator = new Validator;
     //name: required | string | max:255
-    $errors[] = validateName($name);
+    $errors[] = $validator->str($name, "Name", 255);
 
-    $errors = cleanErrors($errors);
-
-    if (empty($errors) && $id !== false) {
+    if ($validator->valid() && $id !== false) {
         
         $isUpdated = $db->update(
             "categories",
@@ -31,7 +29,7 @@ if ($request->postHas('submit')) {
         die;
     }else{
         //store $errors in session
-        $session->set('errors', $errors);
+        $session->set('errors', $validator->getErrors());
         header("location: $url" . "admin/edit-category.php?id=$id");
         die;
     }

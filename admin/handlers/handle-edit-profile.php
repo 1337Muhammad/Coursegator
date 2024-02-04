@@ -15,30 +15,25 @@ if ($request->postHas('submit')) {
     $password = $request->post('password');
     $confirmPassword = $request->post('confirmPassword');
 
+    // Validation
+    $validator = new Validator;
     //name: required | string | max:255
-    $errors[] = validateName($name);
+    $validator->str($name, "name", 255);
 
     //email: required | email | max:255
-    $errors[] = validateEmail($email);
-    //password is not required
-    if (!empty($password)) {
-        // Validate password and passwordConfirm
-        if (!is_string($password)) {
-            $errors[] = "Password must be string";
-        } elseif (strlen($password) < 9 or strlen($password) > 60) {
-            $errors[] = "Password lenght between 9 - 60 chracacter";
-        } elseif ($password != $confirmPassword) {
-            $errors[] = "Password and Confirm don't match";
-        }
+    $validator->email($email);
 
+    //password is not required
+    $emptyPass = $validator->passwordConfirmed($password, $confirmPassword, 9, 60);
+    if($emptyPass === false){  // if pass has value
         $passHash = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    $errors = cleanErrors($errors);
+    // $errors = cleanErrors($errors);
 
-    if (empty($errors)) {
+    if ($validator->valid()) {
 
-        if (empty($password)) {
+        if ($emptyPass == true) {
             $isUpdated = $db->update(
                 "admins",
                 "`name`='$name', `email`='$email'",
@@ -58,8 +53,8 @@ if ($request->postHas('submit')) {
             $session->set('adminName', $name);
         } else {
             //error on query
-            $errors = ['Error updateing database!'];
-            $session->set('errors', $errors);
+            $errors = ['Error updating database!'];
+            $session->set('errors', $validator->getErrors());
 
             header("location: $url" . "admin/edit-profile.php");
             die;
@@ -70,7 +65,7 @@ if ($request->postHas('submit')) {
     $errors = ['Error Submitting! Please Try Again'];
 }
 
-$session->set('errors', $errors);
+$session->set('errors', $validator->getErrors());
 
 header("location: $url" . "admin/edit-profile.php");
 die;

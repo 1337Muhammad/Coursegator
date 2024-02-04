@@ -12,6 +12,7 @@ $url = "http://localhost/";
 require_once("$root" . "/classes/Request.php");
 require_once("$root" . "/classes/Session.php");
 require_once("$root" . "/classes/Db.php");
+require_once("$root" . "/classes/Validator.php");
 
 
 // objects

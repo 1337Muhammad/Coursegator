@@ -1,5 +1,12 @@
 <?php
     include('../global.php');
+
+    
+    if($session->has('isLogin') and $session->has('isLogin')){
+    header("location: $url" . "admin/index.php");
+    die;
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

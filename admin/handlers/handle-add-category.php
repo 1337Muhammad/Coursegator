@@ -6,16 +6,12 @@ if ($request->postHas('submit')) {
     $name = $db->evadeSql($request->trimCleanPost('name'));
 
     //validation 
-    $errors = [];
+    $validator = new Validator;
 
     //name: required | string | max:255
-    $errors[] = validateName($name);
+    $errors[] = $validator->str($name, "name", 255);
 
-    $errors = cleanErrors($errors);
-
-    if (empty($errors)) {
-        $sql = "INSERT INTO categories(name)
-        VALUES ('$name')";
+    if ($validator->valid()) {
             $isInserted = $db->insert(
             "categories",
             "`name`",
@@ -35,6 +31,6 @@ if ($request->postHas('submit')) {
 }
 
 //store $errors in session
-$session->set('errors', $errors);
+$session->set('errors', $validator->getErrors());
 header("location: $url" . "admin/add-category.php");
 die;
